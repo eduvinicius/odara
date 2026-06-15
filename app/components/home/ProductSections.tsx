@@ -6,7 +6,8 @@ import { ProductCard } from "@/app/components/commerce/ProductCard";
 import { Button } from "@/app/components/core/Button";
 import { Eyebrow } from "@/app/components/core/Eyebrow";
 import { Divider } from "@/app/components/core/Divider";
-import { PRODUCTS, type Product } from "@/lib/data";
+import { useCart } from "@/app/context/CartContext";
+import { PRODUCTS } from "@/lib/data";
 
 function SectionHead({ eyebrow, title, sub }: Readonly<{ eyebrow: string; title: string; sub?: string }>) {
   return (
@@ -19,11 +20,8 @@ function SectionHead({ eyebrow, title, sub }: Readonly<{ eyebrow: string; title:
   );
 }
 
-function handleAdd(_product: Product) {
-  // wired up in Phase 3 (CartDrawer)
-}
-
 export function ProductSections() {
+  const { addItem } = useCart();
   const [favorites, setFavorites] = useState<Record<number, boolean>>({});
 
   const promos   = PRODUCTS.filter((p) => p.original != null).slice(0, 4);
@@ -50,7 +48,7 @@ export function ProductSections() {
                 product={p}
                 favorite={!!favorites[p.id]}
                 onFavorite={() => toggleFav(p.id)}
-                onAdd={handleAdd}
+                onAdd={addItem}
               />
             ))}
           </div>
@@ -72,7 +70,7 @@ export function ProductSections() {
                 product={p}
                 favorite={!!favorites[p.id]}
                 onFavorite={() => toggleFav(p.id)}
-                onAdd={handleAdd}
+                onAdd={addItem}
               />
             ))}
           </div>

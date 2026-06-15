@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Great_Vibes, Cormorant_Garamond, Jost } from "next/font/google";
 import "./globals.css";
+import { Providers } from "./providers";
 
 const greatVibes = Great_Vibes({
   weight: "400",
@@ -39,7 +40,7 @@ export default function RootLayout({
       className={`${greatVibes.variable} ${cormorant.variable} ${jost.variable}`}
     >
       <body className="min-h-screen bg-surface-page text-ink-700 font-sans antialiased">
-        {children}
+        <Providers>{children}</Providers>
       </body>
     </html>
   );

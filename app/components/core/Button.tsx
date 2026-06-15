@@ -23,6 +23,7 @@ interface ButtonProps {
   href?: string;
   onClick?: (e: React.MouseEvent) => void;
   className?: string;
+  style?: React.CSSProperties;
 }
 
 const sizeClasses = {
@@ -50,6 +51,7 @@ export function Button({
   href,
   onClick,
   className,
+  style,
 }: ButtonProps) {
   const IconLeft  = resolveIcon(iconLeft);
   const IconRight = resolveIcon(iconRight);
@@ -62,6 +64,11 @@ export function Button({
     ${fullWidth ? "w-full" : ""}
     ${className ?? ""}`;
 
+  const inlineStyle: React.CSSProperties = {
+    ...(isPrimary ? { background: "var(--gradient-gold)" } : {}),
+    ...style,
+  };
+
   const content = (
     <>
       {IconLeft  && <IconLeft  size={18} />}
@@ -72,7 +79,7 @@ export function Button({
 
   if (href) {
     return (
-      <a href={href} className={base} style={isPrimary ? { background: "var(--gradient-gold)" } : undefined}>
+      <a href={href} className={base} style={inlineStyle}>
         {content}
       </a>
     );
@@ -84,7 +91,7 @@ export function Button({
       disabled={disabled}
       onClick={disabled ? undefined : onClick}
       className={base}
-      style={isPrimary ? { background: "var(--gradient-gold)" } : undefined}
+      style={inlineStyle}
     >
       {content}
     </button>

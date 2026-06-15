@@ -81,6 +81,7 @@ export default function HomePage() {
                 src="/odara-hero.jpg"
                 alt="Presentes artesanais Odara"
                 fill
+                sizes="(max-width: 768px) 100vw, 48vw"
                 className="object-cover"
                 priority
               />

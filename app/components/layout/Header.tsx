@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { Search, ShoppingBag } from "lucide-react";
 import { Logo } from "@/app/components/core/Logo";
 import { IconButton } from "@/app/components/core/IconButton";
+import { useCart } from "@/app/context/CartContext";
 
 const NAV_ITEMS = [
   { href: "/",        label: "Início" },
@@ -12,13 +13,9 @@ const NAV_ITEMS = [
   { href: "/about",   label: "Quem somos" },
 ];
 
-interface HeaderProps {
-  cartCount?: number;
-  onCartOpen?: () => void;
-}
-
-export function Header({ cartCount = 0, onCartOpen }: HeaderProps) {
+export function Header() {
   const pathname = usePathname();
+  const { count, openCart } = useCart();
 
   return (
     <header
@@ -34,20 +31,20 @@ export function Header({ cartCount = 0, onCartOpen }: HeaderProps) {
         <Logo size="sm" />
       </Link>
 
-      <nav className="flex gap-[6px] mx-auto">
+      <nav className="flex gap-1.5 mx-auto">
         {NAV_ITEMS.map(({ href, label }) => {
           const active = pathname === href;
           return (
             <Link
               key={href}
               href={href}
-              className={`relative px-[14px] py-2 font-sans text-md tracking-[0.01em] transition-colors duration-[140ms] rounded-sm ${
+              className={`relative px-3.5 py-2 font-sans text-md tracking-[0.01em] transition-colors duration-140 rounded-sm ${
                 active ? "font-semibold text-gold-600" : "font-normal text-ink-700 hover:text-gold-600"
               }`}
             >
               {label}
               <span
-                className="absolute left-[14px] right-[14px] bottom-[2px] h-[2px] rounded-[2px] transition-opacity duration-[140ms]"
+                className="absolute left-3.5 right-3.5 bottom-0.5 h-0.5 rounded-[2px] transition-opacity duration-140"
                 style={{
                   background: "var(--gradient-gold)",
                   opacity: active ? 1 : 0,
@@ -65,8 +62,8 @@ export function Header({ cartCount = 0, onCartOpen }: HeaderProps) {
         <IconButton
           icon={ShoppingBag}
           ariaLabel="Carrinho"
-          count={cartCount}
-          onClick={onCartOpen}
+          count={count}
+          onClick={openCart}
         />
       </div>
     </header>
