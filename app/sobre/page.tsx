@@ -1,41 +1,12 @@
 import Image from "next/image";
 import Link from "next/link";
-import { HandHeart, Sparkles, Leaf } from "lucide-react";
 import { Header } from "@/app/components/layout/Header";
 import { Footer } from "@/app/components/layout/Footer";
 import { Eyebrow } from "@/app/components/core/Eyebrow";
 import { Divider } from "@/app/components/core/Divider";
 import { Button } from "@/app/components/core/Button";
 import { WHATSAPP } from "@/lib/data";
-
-const VALUES = [
-  {
-    icon: HandHeart,
-    title: "Cuidado artesanal",
-    desc: "Cada detalhe é feito à mão, com calma e dedicação.",
-  },
-  {
-    icon: Sparkles,
-    title: "Beleza nos detalhes",
-    desc: "Acabamentos delicados que encantam quem recebe.",
-  },
-  {
-    icon: Leaf,
-    title: "Curadoria afetiva",
-    desc: "Selecionamos peças que carregam significado.",
-  },
-] as const;
-
-const STATS = [
-  { number: "+2 mil", label: "presentes entregues" },
-  { number: "100%",   label: "feito à mão" },
-  { number: "5,0",    label: "avaliação dos clientes" },
-] as const;
-
-const wrap = {
-  maxWidth: "var(--container-max)",
-  margin: "0 auto",
-};
+import { VALUES, STATS, wrap } from "./page.data";
 
 export default function AboutPage() {
   return (

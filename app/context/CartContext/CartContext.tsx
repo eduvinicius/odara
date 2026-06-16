@@ -3,18 +3,7 @@
 import { createContext, useContext, useState, useCallback } from "react";
 import type { CartItem } from "@/lib/cart";
 import type { Product } from "@/lib/data";
-
-interface CartContextValue {
-  items: CartItem[];
-  addItem: (product: Product) => void;
-  removeItem: (id: number) => void;
-  updateQty: (id: number, qty: number) => void;
-  count: number;
-  total: number;
-  isOpen: boolean;
-  openCart: () => void;
-  closeCart: () => void;
-}
+import type { CartContextValue } from "./cartContext.types";
 
 const CartContext = createContext<CartContextValue | null>(null);
 

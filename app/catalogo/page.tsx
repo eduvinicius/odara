@@ -11,11 +11,7 @@ import { SearchField } from "@/app/components/forms/SearchField";
 import { ProductCard } from "@/app/components/commerce/ProductCard";
 import { useCart } from "@/app/context/CartContext";
 import { PRODUCTS, CATEGORIES, type Category } from "@/lib/data";
-
-const wrap = {
-  maxWidth: "var(--container-max)",
-  margin: "0 auto",
-};
+import { wrap } from "./page.data";
 
 export default function CatalogPage() {
   const { addItem } = useCart();
