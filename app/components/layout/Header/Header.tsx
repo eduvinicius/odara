@@ -6,12 +6,7 @@ import { Search, ShoppingBag } from "lucide-react";
 import { Logo } from "@/app/components/core/Logo";
 import { IconButton } from "@/app/components/core/IconButton";
 import { useCart } from "@/app/context/CartContext";
-
-const NAV_ITEMS = [
-  { href: "/",        label: "Início" },
-  { href: "/catalog", label: "Catálogo" },
-  { href: "/about",   label: "Quem somos" },
-];
+import { NAV_ITEMS } from "./header.data";
 
 export function Header() {
   const pathname = usePathname();

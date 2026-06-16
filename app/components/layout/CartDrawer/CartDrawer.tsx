@@ -32,7 +32,7 @@ export function CartDrawer() {
       <div
         aria-hidden
         onClick={closeCart}
-        className="fixed inset-0 z-40 transition-opacity duration-[240ms]"
+        className="fixed inset-0 z-40 transition-opacity duration-240"
         style={{
           background: "rgba(56,41,27,0.42)",
           backdropFilter: "blur(2px)",
@@ -45,7 +45,7 @@ export function CartDrawer() {
       <aside
         aria-label="Carrinho"
         aria-hidden={!isOpen}
-        className="fixed top-0 right-0 z-41 h-full bg-surface-card shadow-lg flex flex-col transition-transform duration-[420ms]"
+        className="fixed top-0 right-0 z-41 h-full bg-surface-card shadow-lg flex flex-col transition-transform duration-420"
         style={{
           width: "min(var(--cart-w), 92vw)",
           transform: isOpen ? "translateX(0)" : "translateX(100%)",
@@ -53,7 +53,7 @@ export function CartDrawer() {
         }}
       >
         {/* Header */}
-        <div className="flex items-center justify-between px-[22px] py-5 border-b border-border-soft">
+        <div className="flex items-center justify-between px-5.5 py-5 border-b border-border-soft">
           <div className="flex items-baseline gap-2">
             <h2 className="font-serif text-2xl font-semibold text-ink-900">Seu carrinho</h2>
             <span className="font-sans text-sm text-ink-500">
@@ -65,7 +65,7 @@ export function CartDrawer() {
 
         {/* Body */}
         {items.length > 0 ? (
-          <div className="flex-1 overflow-y-auto px-[22px] py-1">
+          <div className="flex-1 overflow-y-auto px-5.5 py-1">
             {items.map((it) => (
               <CartLine
                 key={it.id}
@@ -76,12 +76,12 @@ export function CartDrawer() {
             ))}
           </div>
         ) : (
-          <div className="flex-1 flex flex-col items-center justify-center gap-[14px] p-8 text-center">
+          <div className="flex-1 flex flex-col items-center justify-center gap-3.5 p-8 text-center">
             <span className="w-16 h-16 rounded-circle bg-cream-100 inline-flex items-center justify-center text-gold-400">
               <ShoppingBag size={28} />
             </span>
             <p className="font-serif text-xl text-ink-700">Seu carrinho está vazio</p>
-            <p className="text-ink-500 max-w-[240px]">
+            <p className="text-ink-500 max-w-60">
               Que tal escolher um presente especial para alguém?
             </p>
           </div>
@@ -89,7 +89,7 @@ export function CartDrawer() {
 
         {/* Footer */}
         {items.length > 0 && (
-          <div className="border-t border-border-soft px-[22px] pt-[18px] pb-[22px] flex flex-col gap-[14px] bg-surface-card">
+          <div className="border-t border-border-soft px-5.5 pt-4.5 pb-5.5 flex flex-col gap-3.5 bg-surface-card">
             <div className="flex items-baseline justify-between">
               <span className="font-sans text-md text-ink-500">Subtotal</span>
               <span className="font-serif text-2xl font-semibold text-ink-900">
@@ -107,7 +107,7 @@ export function CartDrawer() {
               Finalizar no WhatsApp
             </Button>
 
-            <p className="font-sans text-xs text-ink-500 text-center leading-[1.5] flex items-center justify-center gap-1">
+            <p className="font-sans text-xs text-ink-500 text-center leading-normal flex items-center justify-center gap-1">
               <Info size={12} className="flex-none" />
               Você será levado ao WhatsApp com o pedido pronto. Frete e pagamento combinados por lá.
             </p>
