@@ -66,7 +66,7 @@ export default function AboutPage() {
             >
               A Odara nasceu do desejo de transformar gestos simples em memórias inesquecíveis.
               Cada presente é pensado, montado e embrulhado à mão — porque acreditamos que a
-              forma de presentear também é uma forma de dizer "eu te amo".
+              forma de presentear também é uma forma de dizer &quot;eu te amo&quot;.
             </p>
           </div>
         </section>
@@ -172,7 +172,7 @@ export default function AboutPage() {
               >
                 Falar no WhatsApp
               </Button>
-              <Link href="/catalog">
+              <Link href="/catalogo">
                 <Button
                   variant="outline"
                   size="lg"

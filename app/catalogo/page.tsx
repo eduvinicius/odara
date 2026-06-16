@@ -60,7 +60,7 @@ export default function CatalogPage() {
             <p className="text-ink-500 max-w-115">
               Encontre o presente perfeito — busque pelo nome ou explore por categoria.
             </p>
-            <div className="w-full max-w-[520px] mt-2">
+            <div className="w-full max-w-130 mt-2">
               <SearchField
                 value={q}
                 onChange={(e) => setQ(e.target.value)}
@@ -79,7 +79,7 @@ export default function CatalogPage() {
           }}
         >
           {/* Category chips */}
-          <div className="flex gap-[10px] flex-wrap justify-center mb-6">
+          <div className="flex gap-2.5 flex-wrap justify-center mb-6">
             {CATEGORIES.map((c) => (
               <Tag key={c} selected={cat === c} onClick={() => setCat(c)}>
                 {c}
@@ -88,7 +88,7 @@ export default function CatalogPage() {
           </div>
 
           {/* Result count */}
-          <div className="flex items-center justify-between mb-[18px] text-ink-500 text-sm">
+          <div className="flex items-center justify-between mb-4.5 text-ink-500 text-sm">
             <span>
               {count} {countLabel}
               {q && <span> para &ldquo;{q}&rdquo;</span>}
@@ -112,7 +112,7 @@ export default function CatalogPage() {
               ))}
             </div>
           ) : (
-            <div className="flex flex-col items-center gap-[14px] text-center py-16 text-ink-500">
+            <div className="flex flex-col items-center gap-3.5 text-center py-16 text-ink-500">
               <SearchX size={40} className="text-gold-400" />
               <p className="font-serif text-xl text-ink-700">Nenhum presente encontrado</p>
               <p>Tente outro nome ou veja todas as categorias.</p>

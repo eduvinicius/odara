@@ -60,12 +60,12 @@ export default function HomePage() {
                 monte seu pedido e finalize pelo WhatsApp.
               </p>
               <div className="flex gap-3 flex-wrap">
-                <Link href="/catalog">
+                <Link href="/catalogo">
                   <Button variant="primary" size="lg" iconRight="arrow-right">
                     Ver catálogo
                   </Button>
                 </Link>
-                <Link href="/about">
+                <Link href="/sobre">
                   <Button variant="outline" size="lg">
                     Quem somos
                   </Button>

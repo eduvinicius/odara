@@ -5,8 +5,8 @@ export interface FooterColItem {
 
 export const FOOTER_NAV_ITEMS: FooterColItem[] = [
   { label: "Início",     href: "/" },
-  { label: "Catálogo",   href: "/catalog" },
-  { label: "Quem somos", href: "/about" },
+  { label: "Catálogo",   href: "/catalogo" },
+  { label: "Quem somos", href: "/sobre" },
 ];
 
 export const FOOTER_CONTACT_ITEMS: FooterColItem[] = [
