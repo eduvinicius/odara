@@ -1,3 +1,8 @@
+// Shared module — imported by both Server and Client Components.
+// No server-only imports here. Fetch functions live in lib/queries.ts.
+
+// ─── Constants ───────────────────────────────────────────────────────────────
+
 export const WHATSAPP = "5599999999999"; // TODO: replace with Odara's real WhatsApp number
 
 export const CATEGORIES = [
@@ -11,6 +16,8 @@ export const CATEGORIES = [
 ] as const;
 
 export type Category = (typeof CATEGORIES)[number];
+
+// ─── Types ───────────────────────────────────────────────────────────────────
 
 export interface Badge {
   tone: "sale" | "new" | "gold" | "neutral";
@@ -29,7 +36,10 @@ export interface Product {
   badge?: Badge;
 }
 
-export const PRODUCTS: Product[] = [
+// ─── Mock data (dev seed reference) ──────────────────────────────────────────
+// Use these rows to seed your Supabase `products` table.
+
+export const MOCK_PRODUCTS: Product[] = [
   { id: 1,  name: "Vela aromática de baunilha",  category: "Aromas",    price: 71.90,  original: 89.90,  icon: "flame",            featured: true },
   { id: 2,  name: "Caixa surpresa dourada",       category: "Caixas",    price: 129.90,                   icon: "gift",             featured: true, badge: { tone: "new", label: "Novidade" } },
   { id: 3,  name: "Colar coração folheado",       category: "Joias",     price: 89.90,                    icon: "gem",              featured: true },
@@ -43,6 +53,8 @@ export const PRODUCTS: Product[] = [
   { id: 11, name: "Porta-joias de madeira",       category: "Decoração", price: 79.90,                    icon: "box" },
   { id: 12, name: "Cesta café da manhã",          category: "Caixas",    price: 159.90, original: 189.90, icon: "utensils-crossed",  badge: { tone: "new", label: "Novidade" } },
 ];
+
+// ─── Helpers ─────────────────────────────────────────────────────────────────
 
 export function money(n: number): string {
   return "R$ " + n.toFixed(2).replace(".", ",");

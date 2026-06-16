@@ -10,20 +10,20 @@ import { Tag } from "@/app/components/core/Tag";
 import { SearchField } from "@/app/components/forms/SearchField";
 import { ProductCard } from "@/app/components/commerce/ProductCard";
 import { useCart } from "@/app/context/CartContext";
-import { PRODUCTS, CATEGORIES, type Category } from "@/lib/data";
+import { MOCK_PRODUCTS, CATEGORIES, type Category } from "@/lib/data";
 import { wrap } from "./page.data";
 
 export default function CatalogPage() {
   const { addItem } = useCart();
-  const [q, setQ]         = useState("");
-  const [cat, setCat]     = useState<Category>("Todos");
+  const [q, setQ] = useState("");
+  const [cat, setCat] = useState<Category>("Todos");
   const [favorites, setFavorites] = useState<Record<number, boolean>>({});
 
   function toggleFav(id: number) {
     setFavorites((prev) => ({ ...prev, [id]: !prev[id] }));
   }
 
-  const results = PRODUCTS.filter((p) => {
+  const results = MOCK_PRODUCTS.filter((p) => {
     const byName = p.name.toLowerCase().includes(q.trim().toLowerCase());
     const byCat  = cat === "Todos" || p.category === cat;
     return byName && byCat;

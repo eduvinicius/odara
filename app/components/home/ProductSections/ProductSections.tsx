@@ -5,15 +5,15 @@ import Link from "next/link";
 import { ProductCard } from "@/app/components/commerce/ProductCard";
 import { Button } from "@/app/components/core/Button";
 import { useCart } from "@/app/context/CartContext";
-import { PRODUCTS } from "@/lib/data";
+import { MOCK_PRODUCTS } from "@/lib/data";
 import { SectionHead } from "./SectionHead";
 
 export function ProductSections() {
   const { addItem } = useCart();
   const [favorites, setFavorites] = useState<Record<number, boolean>>({});
 
-  const promos   = PRODUCTS.filter((p) => p.original != null).slice(0, 4);
-  const featured = PRODUCTS.filter((p) => p.featured).slice(0, 4);
+  const promos   = MOCK_PRODUCTS.filter((p) => p.original != null).slice(0, 4);
+  const featured = MOCK_PRODUCTS.filter((p) => p.featured).slice(0, 4);
 
   function toggleFav(id: number) {
     setFavorites((prev) => ({ ...prev, [id]: !prev[id] }));
