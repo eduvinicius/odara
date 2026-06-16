@@ -21,7 +21,7 @@ No test runner is configured.
 
 ## Architecture
 
-**Odara** is a Brazilian artisanal gift e-commerce catalog. Product data is fetched from Firebase Firestore (read-only). The ordering flow ends with a WhatsApp handoff — there is no custom backend, checkout, or user authentication.
+**Odara** is a Brazilian artisanal gift e-commerce catalog. Product data is fetched from Supabase (read-only). The ordering flow ends with a WhatsApp handoff — there is no custom backend, checkout, or user authentication.
 
 ### Directory layout
 
@@ -32,9 +32,9 @@ odara/              ← Next.js app (this repo)
     page.tsx        ← Home page (currently Next.js placeholder)
     globals.css     ← Tailwind v4 import + CSS custom properties
   lib/
-    firebase.ts     ← Firebase client SDK init (client components only)
-    firebase-admin.ts ← Firebase Admin SDK init (Server Components — keeps credentials server-side)
-    data.ts         ← Firestore fetch functions + Product interface + CATEGORIES
+    supabase.ts     ← Supabase browser client init (client components only)
+    supabase-server.ts ← Supabase server client init (Server Components — keeps service role key server-side)
+    data.ts         ← Supabase fetch functions + Product interface + CATEGORIES
     cart.ts         ← CartItem type (cart state lives in CartContext, persisted to localStorage)
     whatsapp.ts     ← WhatsApp order message builder + phone constant
     utils.ts        ← money() formatter and other pure helpers
@@ -49,7 +49,7 @@ odara/              ← Next.js app (this repo)
 ### Key architectural decisions
 
 - **App Router only** — uses Next.js App Directory (`app/`), not Pages Router.
-- **Firebase Firestore (read-only)** — product data is fetched from Firestore. No writes, no auth. Server Components use the Admin SDK (`firebase-admin`); Client Components use the client SDK (`firebase`). Config comes from environment variables only.
+- **Supabase (read-only)** — product data is fetched from Supabase. No writes, no auth. Server Components use a server client initialized with the service role key (`supabase-server.ts`); Client Components use the browser client with the anon key (`supabase.ts`). Config comes from environment variables only.
 - **Tailwind CSS v4** — configured via `@tailwindcss/postcss` in `postcss.config.mjs`. The `@theme` directive in `globals.css` is the primary token surface.
 - **Path alias** — `@/*` resolves to the project root (set in `tsconfig.json`).
 - **Design System as source of truth** — All visual decisions (colors, typography, spacing, components) live in `../Odara Design System/`. When implementing UI, reference that directory rather than inventing styles.
