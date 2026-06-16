@@ -35,7 +35,7 @@ odara/              ← Next.js app (this repo)
     firebase.ts     ← Firebase client SDK init (client components only)
     firebase-admin.ts ← Firebase Admin SDK init (Server Components — keeps credentials server-side)
     data.ts         ← Firestore fetch functions + Product interface + CATEGORIES
-    cart.ts         ← Ephemeral client-side cart state
+    cart.ts         ← CartItem type (cart state lives in CartContext, persisted to localStorage)
     whatsapp.ts     ← WhatsApp order message builder + phone constant
     utils.ts        ← money() formatter and other pure helpers
 
