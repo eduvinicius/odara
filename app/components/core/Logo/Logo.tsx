@@ -1,19 +1,7 @@
-interface LogoProps {
-  size?: "sm" | "md" | "lg" | "xl";
-  tagline?: boolean;
-  color?: string;
-  onClick?: () => void;
-  className?: string;
-}
+import type { LogoProps } from "./logo.types";
+import { sizes } from "./logo.data";
 
-const sizes: Record<NonNullable<LogoProps["size"]>, number> = {
-  sm: 30,
-  md: 44,
-  lg: 72,
-  xl: 104,
-};
-
-export function Logo({ size = "md", tagline = false, color, onClick, className }: LogoProps) {
+export function Logo({ size = "md", tagline = false, color, onClick, className }: Readonly<LogoProps>) {
   const px = sizes[size];
 
   return (

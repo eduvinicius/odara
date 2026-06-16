@@ -2,20 +2,8 @@
 
 import { useState } from "react";
 import { Search, X } from "lucide-react";
-
-interface SearchFieldProps {
-  value: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onClear: () => void;
-  placeholder?: string;
-  size?: "md" | "lg";
-  className?: string;
-}
-
-const heights = {
-  md: "h-[var(--control-h-md)]",
-  lg: "h-[var(--control-h-lg)]",
-};
+import type { SearchFieldProps } from "./searchField.types";
+import { heights } from "./searchField.data";
 
 export function SearchField({
   value,
@@ -24,12 +12,12 @@ export function SearchField({
   placeholder = "Buscar presentes...",
   size = "lg",
   className,
-}: SearchFieldProps) {
+}: Readonly<SearchFieldProps>) {
   const [focused, setFocused] = useState(false);
 
   return (
     <div
-      className={`flex items-center gap-[10px] px-[18px] pr-2 ${heights[size]} bg-surface-card rounded-pill border transition-[border-color,box-shadow] duration-[140ms]${className ? ` ${className}` : ""}`}
+      className={`flex items-center gap-2.5 px-4.5 pr-2 ${heights[size]} bg-surface-card rounded-pill border transition-[border-color,box-shadow] duration-[140ms]${className ? ` ${className}` : ""}`}
       style={{
         borderColor: focused ? "var(--gold-400)" : "var(--border)",
         boxShadow: focused
@@ -52,7 +40,7 @@ export function SearchField({
           type="button"
           onClick={onClear}
           aria-label="Limpar busca"
-          className="flex-none w-[34px] h-[34px] rounded-circle border-none bg-cream-100 text-ink-700 cursor-pointer inline-flex items-center justify-center hover:bg-cream-200 transition-colors duration-[140ms]"
+          className="flex-none w-8.5 h-8.5 rounded-circle border-none bg-cream-100 text-ink-700 cursor-pointer inline-flex items-center justify-center hover:bg-cream-200 transition-colors duration-140"
         >
           <X size={16} />
         </button>
