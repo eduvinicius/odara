@@ -2,32 +2,13 @@
 
 import { useState } from "react";
 import { Heart } from "lucide-react";
-import * as LucideIcons from "lucide-react";
 import { Badge } from "@/app/components/core/Badge";
 import { Button } from "@/app/components/core/Button";
-import { PriceTag } from "./PriceTag";
-import type { Product } from "@/lib/data";
+import { PriceTag } from "../PriceTag";
+import { PlaceholderIcon } from "../PlaceholderIcon";
+import type { ProductCardProps } from "./productCard.types";
 
-interface ProductCardProps {
-  product: Product;
-  favorite?: boolean;
-  onFavorite?: () => void;
-  onAdd?: (product: Product) => void;
-  onClick?: () => void;
-}
-
-function PlaceholderIcon({ name }: { name?: string }) {
-  if (!name) return null;
-  const key = name
-    .split("-")
-    .map((s) => s.charAt(0).toUpperCase() + s.slice(1))
-    .join("") as keyof typeof LucideIcons;
-  const Icon = LucideIcons[key] as React.ComponentType<{ size: number; className: string }> | undefined;
-  if (!Icon) return null;
-  return <Icon size={46} className="text-gold-400 opacity-70" />;
-}
-
-export function ProductCard({ product, favorite = false, onFavorite, onAdd, onClick }: ProductCardProps) {
+export function ProductCard({ product, favorite = false, onFavorite, onAdd, onClick }: Readonly<ProductCardProps>) {
   const [hover, setHover] = useState(false);
   const { name, price, original, category, image, icon, badge } = product;
   const onSale = original != null && original > price;
@@ -36,8 +17,8 @@ export function ProductCard({ product, favorite = false, onFavorite, onAdd, onCl
     <article
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
-      className={`flex flex-col bg-surface-card rounded-lg border border-border-soft overflow-hidden transition-[transform,box-shadow] duration-[240ms] ${
-        hover ? "-translate-y-[3px] shadow-md" : "shadow-sm"
+      className={`flex flex-col bg-surface-card rounded-lg border border-border-soft overflow-hidden transition-[transform,box-shadow] duration-240 ${
+        hover ? "-translate-y-0.75 shadow-md" : "shadow-sm"
       }`}
     >
       {/* Image / placeholder */}
@@ -50,10 +31,10 @@ export function ProductCard({ product, favorite = false, onFavorite, onAdd, onCl
             : { background: "linear-gradient(150deg, var(--cream-100), var(--cream-300))" }
         }
       >
-        {!image && <PlaceholderIcon name={icon} />}
+        {!image && <PlaceholderIcon name={icon} size={46} className="text-gold-400 opacity-70" />}
 
         {/* Badges top-left */}
-        <div className="absolute top-[10px] left-[10px] flex gap-[6px]">
+        <div className="absolute top-2.5 left-2.5 flex gap-1.5">
           {onSale && !badge && (
             <Badge tone="sale">
               -{Math.round((1 - price / original!) * 100)}%
@@ -67,7 +48,7 @@ export function ProductCard({ product, favorite = false, onFavorite, onAdd, onCl
           type="button"
           aria-label="Favoritar"
           onClick={(e) => { e.stopPropagation(); onFavorite?.(); }}
-          className="absolute top-[10px] right-[10px] w-9 h-9 rounded-circle border-none flex items-center justify-center backdrop-blur-sm shadow-xs transition-colors duration-[140ms]"
+          className="absolute top-2.5 right-2.5 w-9 h-9 rounded-circle border-none flex items-center justify-center backdrop-blur-sm shadow-xs transition-colors duration-140"
           style={{ background: "rgba(255,252,248,0.86)", color: favorite ? "var(--rose-400)" : "var(--ink-500)" }}
         >
           <Heart
@@ -79,7 +60,7 @@ export function ProductCard({ product, favorite = false, onFavorite, onAdd, onCl
       </div>
 
       {/* Content */}
-      <div className="flex flex-col gap-[10px] px-4 pt-2 pb-4">
+      <div className="flex flex-col gap-2.5 px-4 pt-2 pb-4">
         {category && (
           <span className="font-sans text-2xs font-medium uppercase tracking-[0.16em] text-gold-500">
             {category}
@@ -91,7 +72,7 @@ export function ProductCard({ product, favorite = false, onFavorite, onAdd, onCl
         >
           {name}
         </h3>
-        <div className="flex items-center justify-between gap-[10px] mt-0.5">
+        <div className="flex items-center justify-between gap-2.5 mt-0.5">
           <PriceTag price={price} original={original} size="md" />
           <Button variant="primary" size="sm" iconLeft="plus" onClick={() => onAdd?.(product)}>
             Adicionar

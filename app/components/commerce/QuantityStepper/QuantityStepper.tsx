@@ -1,18 +1,8 @@
 "use client";
 
 import { Minus, Plus } from "lucide-react";
-
-interface QuantityStepperProps {
-  value: number;
-  min?: number;
-  max?: number;
-  size?: "sm" | "md";
-  onChange: (value: number) => void;
-  className?: string;
-}
-
-const dims = { sm: "w-[30px] h-[30px]", md: "w-[34px] h-[34px]" };
-const iconSize = { sm: 14, md: 15 };
+import type { QuantityStepperProps } from "./quantityStepper.types";
+import { dims, iconSize } from "./quantityStepper.data";
 
 export function QuantityStepper({
   value,
@@ -21,7 +11,7 @@ export function QuantityStepper({
   size = "md",
   onChange,
   className,
-}: QuantityStepperProps) {
+}: Readonly<QuantityStepperProps>) {
   const set = (v: number) => onChange(Math.max(min, Math.min(max, v)));
 
   const btnBase = `${dims[size]} rounded-circle border border-border-std bg-surface-card inline-flex items-center justify-center flex-none transition-colors duration-[140ms] disabled:cursor-not-allowed`;

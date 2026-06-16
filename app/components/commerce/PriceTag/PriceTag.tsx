@@ -1,20 +1,8 @@
 import { money } from "@/lib/data";
+import type { PriceTagProps } from "./priceTag.types";
+import { mainSizes } from "./priceTag.data";
 
-interface PriceTagProps {
-  price: number;
-  original?: number;
-  size?: "sm" | "md" | "lg";
-  align?: "left" | "right";
-  className?: string;
-}
-
-const mainSizes = {
-  sm: "text-md",
-  md: "text-xl",
-  lg: "text-2xl",
-};
-
-export function PriceTag({ price, original, size = "md", align = "left", className }: PriceTagProps) {
+export function PriceTag({ price, original, size = "md", align = "left", className }: Readonly<PriceTagProps>) {
   const onSale = original != null && original > price;
 
   return (
