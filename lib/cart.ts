@@ -1,5 +1,5 @@
 export interface CartItem {
-  id: number;
+  id: string;    // UUID — matches Product.id
   name: string;
   price: number;
   icon?: string;

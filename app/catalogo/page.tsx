@@ -17,9 +17,9 @@ export default function CatalogPage() {
   const { addItem } = useCart();
   const [q, setQ] = useState("");
   const [cat, setCat] = useState<Category>("Todos");
-  const [favorites, setFavorites] = useState<Record<number, boolean>>({});
+  const [favorites, setFavorites] = useState<Record<string, boolean>>({});
 
-  function toggleFav(id: number) {
+  function toggleFav(id: string) {
     setFavorites((prev) => ({ ...prev, [id]: !prev[id] }));
   }
 
