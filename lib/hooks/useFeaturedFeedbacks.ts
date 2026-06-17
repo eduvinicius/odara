@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { createClient } from "@/lib/supabase";
+import { fetchFeaturedFeedbacks } from "@/lib/queries/client";
 import { type Feedback } from "@/lib/data";
 
 type FeedbackQueryState = {
@@ -17,17 +17,16 @@ export function useFeaturedFeedbacks(): FeedbackQueryState {
 
   useEffect(() => {
     let cancelled = false;
-    const supabase = createClient();
 
-    supabase
-      .from("feedbacks")
-      .select("*")
-      .eq("featured", true)
-      .order("created_at", { ascending: true })
-      .then(({ data, error }) => {
+    fetchFeaturedFeedbacks()
+      .then((feedbacks) => {
         if (cancelled) return;
-        if (error) setState({ feedbacks: [], loading: false, error: error.message });
-        else setState({ feedbacks: (data as Feedback[]) ?? [], loading: false, error: null });
+        setState({ feedbacks, loading: false, error: null });
+      })
+      .catch((err: unknown) => {
+        if (cancelled) return;
+        const message = err instanceof Error ? err.message : "Erro desconhecido";
+        setState({ feedbacks: [], loading: false, error: message });
       });
 
     return () => { cancelled = true; };

@@ -75,7 +75,7 @@ export async function getProductsPaginated(
 
   const totalCount = count ?? 0;
   const totalPages = Math.max(1, Math.ceil(totalCount / PAGE_SIZE));
-  
+
   return {
     products: (data as ProductRow[]).map((row) => rowToProduct(row)),
     totalCount,
@@ -97,19 +97,6 @@ export async function getProductsByCategory(category: Category): Promise<Product
 
   if (error) throw new Error(`Failed to fetch products by category: ${error.message}`);
   return (data as ProductRow[]).map((row) => rowToProduct(row));
-}
-
-// ─── Categories query ─────────────────────────────────────────────────────────
-
-export async function getCategories(): Promise<string[]> {
-  const supabase = await db();
-  const { data, error } = await supabase
-    .from("Categories")
-    .select("label")
-    .order("ord", { ascending: true });
-
-  if (error) throw new Error(`Failed to fetch categories: ${error.message}`);
-  return (data as { label: string }[]).map((row) => row.label);
 }
 
 export async function getProductById(id: string): Promise<Product | null> {

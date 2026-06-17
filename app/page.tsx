@@ -6,6 +6,7 @@ import { Footer } from "@/app/components/layout/Footer";
 import { Eyebrow } from "@/app/components/core/Eyebrow";
 import { Button } from "@/app/components/core/Button";
 import { ProductSections } from "@/app/components/home/ProductSections";
+import { DepoimentosSection } from "@/app/components/home/Feedbacks";
 import { WHATSAPP_NUMBER } from "@/lib/whatsapp";
 
 function ValueItem({
@@ -136,6 +137,9 @@ export default function HomePage() {
 
         {/* Product sections (client — manages favorites) */}
         <ProductSections />
+
+        {/* Testimonials carousel */}
+        <DepoimentosSection />
 
         {/* WhatsApp CTA band */}
         <section className="bg-emerald-500">

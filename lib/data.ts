@@ -1,9 +1,9 @@
 // Shared module — imported by both Server and Client Components.
-// No server-only imports here. Fetch functions live in lib/queries.ts.
+// No server-only imports here. Fetch functions live in lib/queries/.
 
 // ─── Types ─────────────────────────────────────────────────────────────────
 
-// Category labels are fetched from Supabase at runtime — see lib/queries.ts getCategories().
+// Category labels are fetched from Supabase at runtime — see lib/queries/categories.ts getCategories().
 export type Category = string;
 
 export interface Badge {

@@ -96,6 +96,8 @@ export function FeedbackCarousel() {
     setStepPx(cardWidth + GAP_PX);
   }, []);
 
+  // Re-run when feedbacks arrive so the ResizeObserver attaches after the
+  // carousel DOM mounts (during loading, trackRef.current is null).
   useEffect(() => {
     updateStep();
     const el = trackRef.current;
@@ -103,17 +105,12 @@ export function FeedbackCarousel() {
     const ro = new ResizeObserver(updateStep);
     ro.observe(el);
     return () => ro.disconnect();
-  }, [updateStep]);
+  }, [updateStep, feedbacks.length]);
 
   if (loading) return <FeedbackSkeleton />;
   if (feedbacks.length === 0) return null;
 
   const isCarousel = feedbacks.length >= CARDS_VISIBLE;
-
-  if (!isCarousel) {
-    return <SimpleRow feedbacks={feedbacks} />;
-  }
-
   const lastIndex = feedbacks.length - CARDS_VISIBLE;
   const showPrev = activeIndex > 0;
   const showNext = activeIndex < lastIndex;
@@ -127,35 +124,53 @@ export function FeedbackCarousel() {
   }
 
   return (
-    <div className="flex items-center gap-2">
-      {/* Previous arrow — always occupies space to prevent layout shift */}
-      <div style={{ visibility: showPrev ? "visible" : "hidden" }} aria-hidden={!showPrev}>
-        <IconButton
-          icon={ChevronLeft}
-          variant="ghost"
-          ariaLabel="Depoimento anterior"
-          onClick={handlePrev}
-        />
+    <>
+      {/* Mobile: always a vertical stack, no carousel controls */}
+      <div className="flex flex-col gap-4 md:hidden">
+        {feedbacks.map((feedback) => (
+          <FeedbackCard key={feedback.id} feedback={feedback} />
+        ))}
       </div>
 
-      {/* Clipped viewport — overflow-hidden prevents horizontal scrollbar */}
-      <div ref={trackRef} className="flex-1 overflow-hidden">
-        <CarouselTrack
-          feedbacks={feedbacks}
-          activeIndex={activeIndex}
-          stepPx={stepPx}
-        />
-      </div>
+      {/* Desktop: horizontal carousel (≥4 items) or simple flex row (<4 items) */}
+      {isCarousel ? (
+        <div className="hidden md:flex items-center gap-2">
+          {/* Previous arrow — always occupies space to prevent layout shift */}
+          <div style={{ visibility: showPrev ? "visible" : "hidden" }} aria-hidden={!showPrev}>
+            <IconButton
+              icon={ChevronLeft}
+              variant="ghost"
+              ariaLabel="Depoimento anterior"
+              onClick={handlePrev}
+              className="cursor-pointer"
+            />
+          </div>
 
-      {/* Next arrow — always occupies space to prevent layout shift */}
-      <div style={{ visibility: showNext ? "visible" : "hidden" }} aria-hidden={!showNext}>
-        <IconButton
-          icon={ChevronRight}
-          variant="ghost"
-          ariaLabel="Próximo depoimento"
-          onClick={handleNext}
-        />
-      </div>
-    </div>
+          {/* Clipped viewport — overflow-hidden prevents horizontal scrollbar */}
+          <div ref={trackRef} className="flex-1 overflow-hidden">
+            <CarouselTrack
+              feedbacks={feedbacks}
+              activeIndex={activeIndex}
+              stepPx={stepPx}
+            />
+          </div>
+
+          {/* Next arrow — always occupies space to prevent layout shift */}
+          <div style={{ visibility: showNext ? "visible" : "hidden" }} aria-hidden={!showNext}>
+            <IconButton
+              icon={ChevronRight}
+              variant="ghost"
+              ariaLabel="Próximo depoimento"
+              onClick={handleNext}
+              className="cursor-pointer"
+            />
+          </div>
+        </div>
+      ) : (
+        <div className="hidden md:flex gap-6">
+          <SimpleRow feedbacks={feedbacks} />
+        </div>
+      )}
+    </>
   );
 }

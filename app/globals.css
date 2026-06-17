@@ -279,3 +279,17 @@ a { color: var(--text-gold); text-decoration: none; }
   outline: var(--focus-width) solid var(--focus-ring);
   outline-offset: 2px;
 }
+
+/* ──────────────────────────────────────────────────────────────
+   Lightbox entry animations
+   ────────────────────────────────────────────────────────────── */
+
+@keyframes lightbox-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes lightbox-scale-in {
+  from { transform: scale(0.92); opacity: 0; }
+  to   { transform: scale(1);    opacity: 1; }
+}
