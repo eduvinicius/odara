@@ -5,6 +5,8 @@ import { cookies } from "next/headers";
 import { createClient } from "@/utils/supabase/server";
 import { rowToProduct, type Category, type Product, type ProductRow } from "@/lib/data";
 
+export const PAGE_SIZE = 12;
+
 async function db() {
   const cookieStore = await cookies();
   return createClient(cookieStore);
@@ -35,6 +37,53 @@ export async function getFeaturedProducts(): Promise<Product[]> {
   return (data as ProductRow[]).map((row) => rowToProduct(row));
 }
 
+// ─── Paginated query ─────────────────────────────────────────────────────────
+
+export type PaginatedProducts = {
+  products: Product[];
+  totalCount: number;
+  totalPages: number;
+  page: number;
+};
+
+export async function getProductsPaginated(
+  page: number,
+  category: Category,
+  search: string,
+): Promise<PaginatedProducts> {
+  const supabase = await db();
+
+  const from = (page - 1) * PAGE_SIZE;
+  const to = from + PAGE_SIZE - 1;
+
+  let query = supabase
+    .from("Products")
+    .select("*", { count: "exact" })
+    .eq("active", true);
+
+  if (category !== "Todos") {
+    query = query.eq("category_id", category.toLowerCase());
+  }
+
+  if (search.trim() !== "") {
+    query = query.ilike("name", `%${search.trim()}%`);
+  }
+
+  const { data, error, count } = await query.order("id").range(from, to);
+
+  if (error) throw new Error(`Failed to fetch products: ${error.message}`);
+
+  const totalCount = count ?? 0;
+  const totalPages = Math.max(1, Math.ceil(totalCount / PAGE_SIZE));
+  
+  return {
+    products: (data as ProductRow[]).map((row) => rowToProduct(row)),
+    totalCount,
+    totalPages,
+    page,
+  };
+}
+
 export async function getProductsByCategory(category: Category): Promise<Product[]> {
   if (category === "Todos") return getProducts();
 
@@ -48,6 +97,19 @@ export async function getProductsByCategory(category: Category): Promise<Product
 
   if (error) throw new Error(`Failed to fetch products by category: ${error.message}`);
   return (data as ProductRow[]).map((row) => rowToProduct(row));
+}
+
+// ─── Categories query ─────────────────────────────────────────────────────────
+
+export async function getCategories(): Promise<string[]> {
+  const supabase = await db();
+  const { data, error } = await supabase
+    .from("Categories")
+    .select("label")
+    .order("ord", { ascending: true });
+
+  if (error) throw new Error(`Failed to fetch categories: ${error.message}`);
+  return (data as { label: string }[]).map((row) => row.label);
 }
 
 export async function getProductById(id: string): Promise<Product | null> {

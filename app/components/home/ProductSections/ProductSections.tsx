@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
 import { ProductCard } from "@/app/components/commerce/ProductCard";
 import { Button } from "@/app/components/core/Button";
@@ -8,10 +7,8 @@ import { useCart } from "@/app/context/CartContext";
 import { useFeaturedProducts, usePromoProducts } from "@/lib/hooks";
 import { SectionHead } from "./SectionHead";
 
-function ProductGrid({ ids, favorites, onFavorite, onAdd }: Readonly<{
+function ProductGrid({ ids, onAdd }: Readonly<{
   ids: Parameters<typeof ProductCard>[0]["product"][];
-  favorites: Record<string, boolean>;
-  onFavorite: (id: string) => void;
   onAdd: Parameters<typeof ProductCard>[0]["onAdd"];
 }>) {
   return (
@@ -20,8 +17,6 @@ function ProductGrid({ ids, favorites, onFavorite, onAdd }: Readonly<{
         <ProductCard
           key={p.id}
           product={p}
-          favorite={!!favorites[p.id]}
-          onFavorite={() => onFavorite(p.id)}
           onAdd={onAdd}
         />
       ))}
@@ -45,14 +40,9 @@ function SkeletonGrid() {
 
 export function ProductSections() {
   const { addItem } = useCart();
-  const [favorites, setFavorites] = useState<Record<string, boolean>>({});
 
   const promos    = usePromoProducts();
   const featured  = useFeaturedProducts();
-
-  function toggleFav(id: string) {
-    setFavorites((prev) => ({ ...prev, [id]: !prev[id] }));
-  }
 
   return (
     <>
@@ -69,8 +59,6 @@ export function ProductSections() {
           ) : promos.data.length > 0 ? (
             <ProductGrid
               ids={promos.data.slice(0, 4)}
-              favorites={favorites}
-              onFavorite={toggleFav}
               onAdd={addItem}
             />
           ) : null}
@@ -90,8 +78,6 @@ export function ProductSections() {
           ) : featured.data.length > 0 ? (
             <ProductGrid
               ids={featured.data.slice(0, 4)}
-              favorites={favorites}
-              onFavorite={toggleFav}
               onAdd={addItem}
             />
           ) : null}

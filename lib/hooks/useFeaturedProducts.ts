@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { createClient } from "@/lib/supabase";
-import { rowToProduct, type Product, type ProductRow, type QueryState } from "@/lib/data";
+import { rowToProduct, type ProductRow, type QueryState } from "@/lib/data";
 
 const initial: QueryState = { data: [], loading: true, error: null };
 

@@ -5,7 +5,7 @@ import { Footer } from "@/app/components/layout/Footer";
 import { Eyebrow } from "@/app/components/core/Eyebrow";
 import { Divider } from "@/app/components/core/Divider";
 import { Button } from "@/app/components/core/Button";
-import { WHATSAPP } from "@/lib/data";
+import { WHATSAPP_NUMBER } from "@/lib/whatsapp";
 import { VALUES, STATS, wrap } from "./page.data";
 
 export default function AboutPage() {
@@ -139,7 +139,7 @@ export default function AboutPage() {
                 variant="whatsapp"
                 size="lg"
                 iconLeft="message-circle"
-                href={`https://wa.me/${WHATSAPP}`}
+                href={`https://wa.me/${WHATSAPP_NUMBER}`}
               >
                 Falar no WhatsApp
               </Button>
