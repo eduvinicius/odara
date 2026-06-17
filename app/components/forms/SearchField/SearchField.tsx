@@ -9,6 +9,7 @@ export function SearchField({
   value,
   onChange,
   onClear,
+  onKeyDown,
   placeholder = "Buscar presentes...",
   size = "lg",
   className,
@@ -30,6 +31,7 @@ export function SearchField({
         type="search"
         value={value}
         onChange={onChange}
+        onKeyDown={onKeyDown}
         placeholder={placeholder}
         onFocus={() => setFocused(true)}
         onBlur={() => setFocused(false)}

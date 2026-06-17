@@ -6,7 +6,7 @@ import { Footer } from "@/app/components/layout/Footer";
 import { Eyebrow } from "@/app/components/core/Eyebrow";
 import { Button } from "@/app/components/core/Button";
 import { ProductSections } from "@/app/components/home/ProductSections";
-import { WHATSAPP } from "@/lib/data";
+import { WHATSAPP_NUMBER } from "@/lib/whatsapp";
 
 function ValueItem({
   icon: Icon,
@@ -147,7 +147,7 @@ export default function HomePage() {
               variant="whatsapp"
               size="lg"
               iconLeft="message-circle"
-              href={`https://wa.me/${WHATSAPP}`}
+              href={`https://wa.me/${WHATSAPP_NUMBER}`}
             >
               Conversar no WhatsApp
             </Button>

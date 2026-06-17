@@ -1,14 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import { Heart } from "lucide-react";
 import { Badge } from "@/app/components/core/Badge";
 import { Button } from "@/app/components/core/Button";
 import { PriceTag } from "../PriceTag";
 import { PlaceholderIcon } from "../PlaceholderIcon";
 import type { ProductCardProps } from "./productCard.types";
 
-export function ProductCard({ product, favorite = false, onFavorite, onAdd, onClick }: Readonly<ProductCardProps>) {
+export function ProductCard({ product, onAdd, onClick }: Readonly<ProductCardProps>) {
   const [hover, setHover] = useState(false);
   const { name, price, original, category, image, icon, badge } = product;
   const onSale = original != null && original > price;
@@ -42,21 +41,6 @@ export function ProductCard({ product, favorite = false, onFavorite, onAdd, onCl
           )}
           {badge && <Badge tone={badge.tone}>{badge.label}</Badge>}
         </div>
-
-        {/* Favorite button top-right */}
-        <button
-          type="button"
-          aria-label="Favoritar"
-          onClick={(e) => { e.stopPropagation(); onFavorite?.(); }}
-          className="absolute top-2.5 right-2.5 w-9 h-9 rounded-circle border-none flex items-center justify-center backdrop-blur-sm shadow-xs transition-colors duration-140"
-          style={{ background: "rgba(255,252,248,0.86)", color: favorite ? "var(--rose-400)" : "var(--ink-500)" }}
-        >
-          <Heart
-            size={17}
-            fill={favorite ? "var(--rose-400)" : "transparent"}
-            stroke={favorite ? "var(--rose-400)" : "currentColor"}
-          />
-        </button>
       </div>
 
       {/* Content */}
