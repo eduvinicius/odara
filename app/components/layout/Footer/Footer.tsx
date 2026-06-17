@@ -13,11 +13,10 @@ export function Footer() {
       }}
     >
       <div
-        className="grid gap-10 items-start"
+        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1fr] gap-10 items-start"
         style={{
           maxWidth: "var(--container-max)",
           margin: "0 auto",
-          gridTemplateColumns: "1.4fr 1fr 1fr 1fr",
         }}
       >
         <div className="flex flex-col gap-3.5 max-w-70">

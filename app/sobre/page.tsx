@@ -45,8 +45,7 @@ export default function AboutPage() {
         {/* Image + story */}
         <section style={{ ...wrap, padding: "clamp(48px,6vw,80px) clamp(16px,4vw,48px)" }}>
           <div
-            className="grid items-center gap-12"
-            style={{ gridTemplateColumns: "0.9fr 1.1fr" }}
+            className="grid grid-cols-1 md:grid-cols-[0.9fr_1.1fr] items-center gap-12"
           >
             {/* Image */}
             <div
@@ -102,7 +101,7 @@ export default function AboutPage() {
               <h2 className="font-serif text-3xl font-semibold text-ink-900">Nossos valores</h2>
             </div>
 
-            <div className="grid gap-6" style={{ gridTemplateColumns: "repeat(3, 1fr)" }}>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
               {VALUES.map(({ icon: Icon, title, desc }) => (
                 <div
                   key={title}
