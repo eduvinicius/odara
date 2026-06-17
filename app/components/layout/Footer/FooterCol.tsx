@@ -12,7 +12,7 @@ export function FooterCol({ title, items }: Readonly<{ title: string; items: Foo
           <Link
             key={label}
             href={href}
-            className="font-sans text-sm text-left"
+            className="font-sans text-sm text-left flex items-center min-h-11 sm:min-h-0"
             style={{ color: "rgba(247,237,225,0.78)" }}
           >
             {label}
@@ -20,7 +20,7 @@ export function FooterCol({ title, items }: Readonly<{ title: string; items: Foo
         ) : (
           <span
             key={label}
-            className="font-sans text-sm"
+            className="font-sans text-sm flex items-center min-h-11 sm:min-h-0"
             style={{ color: "rgba(247,237,225,0.78)" }}
           >
             {label}

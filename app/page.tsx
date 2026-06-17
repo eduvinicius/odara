@@ -92,12 +92,11 @@ export default function HomePage() {
         {/* Values strip */}
         <section className="bg-surface-card border-t border-b border-border-soft">
           <div
-            className="grid gap-8"
+            className="grid grid-cols-1 sm:grid-cols-3 gap-8"
             style={{
               maxWidth: "var(--container-max)",
               margin: "0 auto",
               padding: "32px clamp(16px,4vw,48px)",
-              gridTemplateColumns: "repeat(3, 1fr)",
             }}
           >
             <ValueItem

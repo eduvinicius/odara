@@ -26,7 +26,7 @@ export function Header() {
         <Logo size="sm" />
       </Link>
 
-      <nav className="flex gap-1.5 mx-auto">
+      <nav className="hidden md:flex gap-1.5 mx-auto">
         {NAV_ITEMS.map(({ href, label }) => {
           const active = pathname === href;
           return (
@@ -50,7 +50,7 @@ export function Header() {
         })}
       </nav>
 
-      <div className="flex items-center gap-1">
+      <div className="flex items-center gap-1 ml-auto md:ml-0">
         <Link href="/catalogo" aria-label="Buscar">
           <IconButton icon={Search} ariaLabel="Buscar" />
         </Link>
