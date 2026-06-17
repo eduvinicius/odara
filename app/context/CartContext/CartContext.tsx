@@ -36,11 +36,11 @@ export function CartProvider({ children }: Readonly<{ children: React.ReactNode 
     setIsOpen(true);
   }, []);
 
-  const removeItem = useCallback((id: number) => {
+  const removeItem = useCallback((id: string) => {
     setItems((prev) => prev.filter((it) => it.id !== id));
   }, []);
 
-  const updateQty = useCallback((id: number, qty: number) => {
+  const updateQty = useCallback((id: string, qty: number) => {
     if (qty <= 0) {
       setItems((prev) => prev.filter((it) => it.id !== id));
     } else {
