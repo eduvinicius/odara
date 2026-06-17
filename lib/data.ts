@@ -62,6 +62,18 @@ export function rowToProduct(row: ProductRow): Product {
   };
 }
 
+// ─── Feedback ────────────────────────────────────────────────────────────────
+
+export interface Feedback {
+  id: string;
+  product_id: string | null;
+  name: string;
+  description: string;
+  image_url: string | null;
+  featured: boolean;
+  created_at: string;
+}
+
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 
 export function money(n: number): string {
