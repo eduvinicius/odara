@@ -39,15 +39,14 @@ export default function HomePage() {
         {/* Hero */}
         <section style={{ background: "var(--gradient-page)" }}>
           <div
-            className="grid items-center gap-12"
             style={{
               maxWidth: "var(--container-max)",
               margin: "0 auto",
               padding: "clamp(40px,6vw,80px) clamp(16px,4vw,48px)",
-              gridTemplateColumns: "1.05fr 0.95fr",
             }}
           >
-            <div className="flex flex-col gap-5.5 items-start">
+            {/* Mobile-only: title sits above the image+text row */}
+            <div className="md:hidden flex flex-col gap-3 items-start mb-6">
               <Eyebrow>Arte em presentear</Eyebrow>
               <h1
                 className="font-serif font-semibold text-ink-900 leading-[1.05]"
@@ -55,36 +54,54 @@ export default function HomePage() {
               >
                 Presentes que abraçam quem você ama
               </h1>
-              <p className="text-lg text-ink-700 max-w-115 leading-[1.6]">
-                Peças artesanais montadas e embrulhadas à mão, com carinho. Escolha o presente,
-                monte seu pedido e finalize pelo WhatsApp.
-              </p>
-              <div className="flex gap-3 flex-wrap">
-                <Link href="/catalogo">
-                  <Button variant="primary" size="lg" iconRight="arrow-right">
-                    Ver catálogo
-                  </Button>
-                </Link>
-                <Link href="/sobre">
-                  <Button variant="outline" size="lg">
-                    Quem somos
-                  </Button>
-                </Link>
-              </div>
             </div>
 
-            <div
-              className="relative rounded-xl overflow-hidden shadow-lg border border-border-soft"
-              style={{ aspectRatio: "4 / 3" }}
-            >
-              <Image
-                src="/odara-hero.jpg"
-                alt="Presentes artesanais Odara"
-                fill
-                sizes="(max-width: 768px) 100vw, 48vw"
-                className="object-cover"
-                priority
-              />
+            {/* Mobile: image(left 2fr) | text(right 3fr) — Desktop: text(left) | image(right) */}
+            <div className="grid items-center gap-6 md:gap-12 grid-cols-[3fr_2fr] md:grid-cols-[1.05fr_0.95fr]">
+              {/* Text column */}
+              <div className="flex flex-col gap-5.5 items-start">
+                {/* Desktop-only: title lives inside the text column */}
+                <div className="hidden md:contents">
+                  <Eyebrow>Arte em presentear</Eyebrow>
+                  <h1
+                    className="font-serif font-semibold text-ink-900 leading-[1.05]"
+                    style={{ fontSize: "clamp(2.4rem, 5vw, 4rem)" }}
+                  >
+                    Presentes que abraçam quem você ama
+                  </h1>
+                </div>
+                <p className="text-lg text-ink-700 max-w-115 leading-[1.6]">
+                  Peças artesanais montadas e embrulhadas à mão, com carinho. Escolha o presente,
+                  monte seu pedido e finalize pelo WhatsApp.
+                </p>
+                <div className="flex gap-3 flex-wrap">
+                  <Link href="/catalogo">
+                    <Button variant="primary" size="lg" iconRight="arrow-right">
+                      Ver catálogo
+                    </Button>
+                  </Link>
+                  <Link href="/sobre">
+                    <Button variant="outline" size="lg">
+                      Quem somos
+                    </Button>
+                  </Link>
+                </div>
+              </div>
+
+              {/* Image column */}
+              <div
+                className="relative rounded-xl overflow-hidden shadow-lg border border-border-soft"
+                style={{ aspectRatio: "4 / 3" }}
+              >
+                <Image
+                  src="/odara-hero.jpg"
+                  alt="Presentes artesanais Odara"
+                  fill
+                  sizes="(max-width: 768px) 100vw, 48vw"
+                  className="object-cover"
+                  priority
+                />
+              </div>
             </div>
           </div>
         </section>
