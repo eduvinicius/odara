@@ -6,7 +6,7 @@ import { useCart } from "@/app/context/CartContext";
 import { IconButton } from "@/app/components/core/IconButton";
 import { Button } from "@/app/components/core/Button";
 import { CartLine } from "@/app/components/commerce/CartLine";
-import { buildWhatsAppLink } from "@/lib/whatsapp";
+import { buildWhatsAppLink } from "@/lib/whatsapp-actions";
 import { money } from "@/lib/data";
 
 export function CartDrawer() {
@@ -102,7 +102,10 @@ export function CartDrawer() {
               size="lg"
               fullWidth
               iconLeft="message-circle"
-              href={buildWhatsAppLink(items)}
+              onClick={async () => {
+                const url = await buildWhatsAppLink(items);
+                window.open(url, "_blank", "noopener,noreferrer");
+              }}
             >
               Finalizar no WhatsApp
             </Button>

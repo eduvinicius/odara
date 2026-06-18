@@ -3,6 +3,7 @@
 export {
   PAGE_SIZE,
   getProducts,
+  getPromoProducts,
   getFeaturedProducts,
   getProductsPaginated,
   getProductsByCategory,
