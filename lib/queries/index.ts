@@ -7,6 +7,7 @@ export {
   getProductsPaginated,
   getProductsByCategory,
   getProductById,
+  getRelatedProducts,
   type PaginatedProducts,
 } from "./products";
 

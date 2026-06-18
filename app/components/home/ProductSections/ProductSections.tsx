@@ -1,15 +1,17 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { ProductCard } from "@/app/components/commerce/ProductCard";
 import { Button } from "@/app/components/core/Button";
 import { useCart } from "@/app/context/CartContext";
 import { useFeaturedProducts, usePromoProducts } from "@/lib/hooks";
 import { SectionHead } from "./SectionHead";
 
-function ProductGrid({ ids, onAdd }: Readonly<{
+function ProductGrid({ ids, onAdd, onCardClick }: Readonly<{
   ids: Parameters<typeof ProductCard>[0]["product"][];
   onAdd: Parameters<typeof ProductCard>[0]["onAdd"];
+  onCardClick: (id: string) => void;
 }>) {
   return (
     <div className="grid gap-6" style={{ gridTemplateColumns: "repeat(auto-fill, minmax(230px, 1fr))" }}>
@@ -18,6 +20,7 @@ function ProductGrid({ ids, onAdd }: Readonly<{
           key={p.id}
           product={p}
           onAdd={onAdd}
+          onClick={() => onCardClick(p.id)}
         />
       ))}
     </div>
@@ -40,6 +43,11 @@ function SkeletonGrid() {
 
 export function ProductSections() {
   const { addItem } = useCart();
+  const router = useRouter();
+
+  function handleCardClick(id: string): void {
+    router.push(`/catalogo/${id}`);
+  }
 
   const promos    = usePromoProducts();
   const featured  = useFeaturedProducts();
@@ -60,6 +68,7 @@ export function ProductSections() {
             <ProductGrid
               ids={promos.data.slice(0, 4)}
               onAdd={addItem}
+              onCardClick={handleCardClick}
             />
           ) : null}
         </div>
@@ -79,6 +88,7 @@ export function ProductSections() {
             <ProductGrid
               ids={featured.data.slice(0, 4)}
               onAdd={addItem}
+              onCardClick={handleCardClick}
             />
           ) : null}
           <div className="text-center mt-10">
