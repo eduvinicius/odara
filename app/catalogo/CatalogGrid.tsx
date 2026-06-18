@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { SearchX } from "lucide-react";
 import { Button } from "@/app/components/core/Button";
 import { ProductCard } from "@/app/components/commerce/ProductCard";
@@ -15,6 +16,11 @@ type CatalogGridProps = {
 
 export function CatalogGrid({ products, totalCount, q, onClearFilters }: Readonly<CatalogGridProps>) {
   const { addItem } = useCart();
+  const router = useRouter();
+
+  function handleCardClick(id: string): void {
+    router.push(`/catalogo/${id}`);
+  }
 
   const countLabel = totalCount === 1 ? "presente encontrado" : "presentes encontrados";
 
@@ -39,6 +45,7 @@ export function CatalogGrid({ products, totalCount, q, onClearFilters }: Readonl
               key={p.id}
               product={p}
               onAdd={addItem}
+              onClick={() => handleCardClick(p.id)}
             />
           ))}
         </div>
