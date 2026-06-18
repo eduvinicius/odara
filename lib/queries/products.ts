@@ -24,6 +24,19 @@ export async function getProducts(): Promise<Product[]> {
   return (data as ProductRow[]).map((row) => rowToProduct(row));
 }
 
+export async function getPromoProducts(): Promise<Product[]> {
+  const supabase = await db();
+  const { data, error } = await supabase
+    .from("Products")
+    .select("*")
+    .eq("active", true)
+    .not("original_price", "is", null)
+    .order("id");
+
+  if (error) throw new Error(`Failed to fetch promo products: ${error.message}`);
+  return (data as ProductRow[]).map((row) => rowToProduct(row));
+}
+
 export async function getFeaturedProducts(): Promise<Product[]> {
   const supabase = await db();
   const { data, error } = await supabase

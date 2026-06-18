@@ -1,16 +1,14 @@
 "use client";
 
 import { createContext, useContext, useState, useCallback } from "react";
-import { useLocalStorage } from "@/app/hooks/useLocalStorage";
 import type { CartItem } from "@/lib/cart";
 import type { Product } from "@/lib/data";
 import type { CartContextValue } from "./cartContext.types";
-import { CART_STORAGE_KEY } from "./cartContext.data";
 
 const CartContext = createContext<CartContextValue | null>(null);
 
 export function CartProvider({ children }: Readonly<{ children: React.ReactNode }>) {
-  const [items, setItems]   = useLocalStorage<CartItem[]>(CART_STORAGE_KEY, []);
+  const [items, setItems] = useState<CartItem[]>([]);
   const [isOpen, setIsOpen] = useState(false);
 
   const addItem = useCallback((product: Product) => {

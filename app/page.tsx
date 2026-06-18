@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { HandHeart, Gift, MessageCircle } from "lucide-react";
@@ -5,31 +6,11 @@ import { Header } from "@/app/components/layout/Header";
 import { Footer } from "@/app/components/layout/Footer";
 import { Eyebrow } from "@/app/components/core/Eyebrow";
 import { Button } from "@/app/components/core/Button";
-import { ProductSections } from "@/app/components/home/ProductSections";
+import { ProductSectionsServer, ProductSectionsFallback } from "@/app/components/home/ProductSections";
 import { DepoimentosSection } from "@/app/components/home/Feedbacks";
+import { FeedbackSkeleton } from "@/app/components/home/Feedbacks/FeedbackCarousel/FeedbackSkeleton";
 import { WHATSAPP_NUMBER } from "@/lib/whatsapp";
-
-function ValueItem({
-  icon: Icon,
-  title,
-  text,
-}: Readonly<{
-  icon: React.ComponentType<{ size: number; className: string }>;
-  title: string;
-  text: string;
-}>) {
-  return (
-    <div className="flex gap-3.5 items-start">
-      <span className="flex-none w-11 h-11 rounded-circle bg-cream-100 border border-border-soft inline-flex items-center justify-center text-gold-500">
-        <Icon size={20} className="text-gold-500" />
-      </span>
-      <div>
-        <div className="font-serif text-lg font-semibold text-ink-900">{title}</div>
-        <div className="text-sm text-ink-500 leading-normal">{text}</div>
-      </div>
-    </div>
-  );
-}
+import { ValueItem } from "@/app/components/home/HeroValues/ValueItem";
 
 export default function HomePage() {
   return (
@@ -135,14 +116,18 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* Product sections (client — manages favorites) */}
-        <ProductSections />
+        {/* Product sections — fetched server-side, streamed with Suspense */}
+        <Suspense fallback={<ProductSectionsFallback />}>
+          <ProductSectionsServer />
+        </Suspense>
 
-        {/* Testimonials carousel */}
-        <DepoimentosSection />
+        {/* Testimonials carousel — fetched server-side, streamed with Suspense */}
+        <Suspense fallback={<FeedbackSkeleton />}>
+          <DepoimentosSection />
+        </Suspense>
 
         {/* WhatsApp CTA band */}
-        <section className="bg-emerald-500">
+        <section style={{ background: "var(--emerald-500)" }}>
           <div
             className="flex flex-col items-center text-center gap-4.5"
             style={{
@@ -160,7 +145,7 @@ export default function HomePage() {
             >
               Precisa de ajuda para escolher o presente perfeito?
             </h2>
-            <p className="max-w-120" style={{ color: "rgba(247,237,225,0.82)" }}>
+            <p className="max-w-120" style={{ color: "color-mix(in srgb, var(--cream-50) 82%, transparent)" }}>
               Fale com a gente no WhatsApp — ajudamos você a montar um presente inesquecível.
             </p>
             <Button
