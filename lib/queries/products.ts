@@ -111,7 +111,7 @@ export async function getProductById(id: string): Promise<Product | null> {
     if (error.code === "PGRST116") return null; // row not found
     throw new Error(`Failed to fetch product ${id}: ${error.message}`);
   }
-  console.log("Fetched product:", data);
+
   return rowToProduct(data as ProductRow);
 }
 

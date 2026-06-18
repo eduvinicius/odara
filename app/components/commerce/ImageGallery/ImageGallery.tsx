@@ -27,14 +27,18 @@ export function ImageGallery({ images, productName }: Readonly<ImageGalleryProps
     return (
       <div
         className="w-full overflow-hidden"
-        style={{ borderRadius: "var(--radius-lg)", boxShadow: "var(--shadow-md)" }}
+        style={{
+          borderRadius: "var(--radius-lg)",
+          boxShadow: "var(--shadow-md)",
+          background: "var(--cream-100)",
+        }}
       >
         {/* eslint-disable-next-line @next/next/no-img-element -- product images are dynamically hosted on Supabase Storage with unknown domains; next/image requires domains to be whitelisted in next.config */}
         <img
           src={images[0]}
           alt={productName}
           className="w-full"
-          style={{ aspectRatio: "4/3", objectFit: "cover", display: "block" }}
+          style={{ width: "100%", height: "auto", display: "block", objectFit: "contain" }}
         />
       </div>
     );
@@ -97,6 +101,7 @@ export function ImageGallery({ images, productName }: Readonly<ImageGalleryProps
           style={{
             borderRadius: "var(--radius-lg)",
             boxShadow: "var(--shadow-md)",
+            background: "var(--cream-100)",
           }}
         >
           {/* eslint-disable-next-line @next/next/no-img-element -- product images are dynamically hosted on Supabase Storage with unknown domains; next/image requires domains to be whitelisted in next.config */}
@@ -104,11 +109,11 @@ export function ImageGallery({ images, productName }: Readonly<ImageGalleryProps
             key={activeImage}
             src={activeImage}
             alt={productName}
-            className="w-full"
             style={{
-              aspectRatio: "4/3",
-              objectFit: "cover",
+              width: "100%",
+              height: "auto",
               display: "block",
+              objectFit: "contain",
               transition: `opacity var(--dur-fast) var(--ease-out)`,
             }}
           />
@@ -123,6 +128,7 @@ export function ImageGallery({ images, productName }: Readonly<ImageGalleryProps
           style={{
             borderRadius: "var(--radius-lg)",
             boxShadow: "var(--shadow-md)",
+            background: "var(--cream-100)",
           }}
         >
           {/* eslint-disable-next-line @next/next/no-img-element -- product images are dynamically hosted on Supabase Storage with unknown domains; next/image requires domains to be whitelisted in next.config */}
@@ -130,11 +136,11 @@ export function ImageGallery({ images, productName }: Readonly<ImageGalleryProps
             key={activeImage}
             src={activeImage}
             alt={productName}
-            className="w-full"
             style={{
-              aspectRatio: "4/3",
-              objectFit: "cover",
+              width: "100%",
+              height: "auto",
               display: "block",
+              objectFit: "contain",
               transition: `opacity var(--dur-fast) var(--ease-out)`,
             }}
           />
