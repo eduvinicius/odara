@@ -2,30 +2,49 @@
 
 import { useEffect, useState } from "react";
 import { fetchProductsByCategory } from "@/lib/queries/client";
-import { type Category, type QueryState } from "@/lib/data";
+import { type Category, type Product } from "@/lib/data";
 
-const initial: QueryState = { data: [], loading: true, error: null };
+type CategoryState = {
+  category: Category;
+  data: Product[];
+  loading: boolean;
+  error: string | null;
+};
 
-export function useProductsByCategory(category: Category): QueryState {
-  const [state, setState] = useState<QueryState>(initial);
+export function useProductsByCategory(
+  category: Category,
+): { data: Product[]; loading: boolean; error: string | null } {
+  const [state, setState] = useState<CategoryState>({
+    category,
+    data: [],
+    loading: true,
+    error: null,
+  });
 
   useEffect(() => {
     let cancelled = false;
-    setState(initial);
 
     fetchProductsByCategory(category)
       .then((data) => {
         if (cancelled) return;
-        setState({ data, loading: false, error: null });
+        setState({ category, data, loading: false, error: null });
       })
       .catch((err: unknown) => {
         if (cancelled) return;
         const message = err instanceof Error ? err.message : "Erro desconhecido";
-        setState({ data: [], loading: false, error: message });
+        setState({ category, data: [], loading: false, error: message });
       });
 
-    return () => { cancelled = true; };
+    return () => {
+      cancelled = true;
+    };
   }, [category]);
 
-  return state;
+  // If the category prop has changed but the effect hasn't settled yet,
+  // return loading state derived at render time — no synchronous setState needed.
+  if (state.category !== category) {
+    return { data: [], loading: true, error: null };
+  }
+
+  return { data: state.data, loading: state.loading, error: state.error };
 }

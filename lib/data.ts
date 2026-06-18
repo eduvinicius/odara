@@ -22,6 +22,8 @@ export interface Product {
   featured?: boolean;
   badge?: Badge;         // reconstructed from badge_tone + badge_label
   active?: boolean;
+  description?: string;  // mapped from description column
+  images?: string[];     // mapped from images column (text[])
 }
 
 // Shared type for hooks
@@ -41,6 +43,8 @@ export type ProductRow = {
   badge_tone: string | null;
   badge_label: string | null;
   active: boolean;
+  description: string | null;
+  images: string[] | null;
 };
 
 export function rowToProduct(row: ProductRow): Product {
@@ -59,6 +63,8 @@ export function rowToProduct(row: ProductRow): Product {
       badge: { tone: row.badge_tone as Badge["tone"], label: row.badge_label },
     }),
     active: row.active,
+    ...(row.description != null && { description: row.description }),
+    ...(row.images != null && row.images.length > 0 && { images: row.images }),
   };
 }
 

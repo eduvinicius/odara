@@ -111,5 +111,27 @@ export async function getProductById(id: string): Promise<Product | null> {
     if (error.code === "PGRST116") return null; // row not found
     throw new Error(`Failed to fetch product ${id}: ${error.message}`);
   }
+  console.log("Fetched product:", data);
   return rowToProduct(data as ProductRow);
+}
+
+export async function getRelatedProducts(excludeId: string, limit = 3): Promise<Product[]> {
+  const supabase = await db();
+  const { data, error } = await supabase
+    .from("Products")
+    .select("*")
+    .eq("active", true)
+    .neq("id", excludeId)
+    .limit(limit * 4);
+
+  if (error) throw new Error(`Failed to fetch related products: ${error.message}`);
+
+  const rows = data as ProductRow[];
+
+  for (let i = rows.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [rows[i], rows[j]] = [rows[j], rows[i]];
+  }
+
+  return rows.slice(0, limit).map((row) => rowToProduct(row));
 }
