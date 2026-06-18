@@ -1,7 +1,12 @@
+import { getFeaturedFeedbacks } from "@/lib/queries/feedbacks";
 import { SectionHead } from "@/app/components/home/ProductSections/SectionHead";
 import { FeedbackCarousel } from "@/app/components/home/Feedbacks/FeedbackCarousel";
 
-export function DepoimentosSection() {
+export async function DepoimentosSection() {
+  const feedbacks = await getFeaturedFeedbacks();
+
+  if (feedbacks.length === 0) return null;
+
   return (
     <section className="bg-surface-sunken">
       <div
@@ -12,7 +17,7 @@ export function DepoimentosSection() {
         }}
       >
         <SectionHead eyebrow="O que dizem por aí" title="Depoimentos" />
-        <FeedbackCarousel />
+        <FeedbackCarousel feedbacks={feedbacks} />
       </div>
     </section>
   );

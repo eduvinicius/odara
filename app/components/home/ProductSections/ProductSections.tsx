@@ -1,56 +1,19 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { ProductCard } from "@/app/components/commerce/ProductCard";
 import { Button } from "@/app/components/core/Button";
 import { useCart } from "@/app/context/CartContext";
-import { useFeaturedProducts, usePromoProducts } from "@/lib/hooks";
 import { SectionHead } from "./SectionHead";
+import { ProductGrid } from "./ProductGrid";
+import type { Product } from "@/lib/data";
 
-function ProductGrid({ ids, onAdd, onCardClick }: Readonly<{
-  ids: Parameters<typeof ProductCard>[0]["product"][];
-  onAdd: Parameters<typeof ProductCard>[0]["onAdd"];
-  onCardClick: (id: string) => void;
-}>) {
-  return (
-    <div className="grid gap-6" style={{ gridTemplateColumns: "repeat(auto-fill, minmax(230px, 1fr))" }}>
-      {ids.map((p) => (
-        <ProductCard
-          key={p.id}
-          product={p}
-          onAdd={onAdd}
-          onClick={() => onCardClick(p.id)}
-        />
-      ))}
-    </div>
-  );
-}
+type ProductSectionsProps = {
+  promos: Product[];
+  featured: Product[];
+};
 
-function SkeletonGrid() {
-  return (
-    <div className="grid gap-6" style={{ gridTemplateColumns: "repeat(auto-fill, minmax(230px, 1fr))" }}>
-      {Array.from({ length: 4 }).map((_, i) => (
-        <div
-          key={i}
-          className="rounded-xl bg-cream-100 animate-pulse"
-          style={{ height: 320 }}
-        />
-      ))}
-    </div>
-  );
-}
-
-export function ProductSections() {
+export function ProductSections({ promos, featured }: Readonly<ProductSectionsProps>) {
   const { addItem } = useCart();
-  const router = useRouter();
-
-  function handleCardClick(id: string): void {
-    router.push(`/catalogo/${id}`);
-  }
-
-  const promos    = usePromoProducts();
-  const featured  = useFeaturedProducts();
 
   return (
     <>
@@ -62,15 +25,9 @@ export function ProductSections() {
             title="Ofertas com carinho"
             sub="Presentes especiais por um precinho mais doce."
           />
-          {promos.loading ? (
-            <SkeletonGrid />
-          ) : promos.data.length > 0 ? (
-            <ProductGrid
-              ids={promos.data.slice(0, 4)}
-              onAdd={addItem}
-              onCardClick={handleCardClick}
-            />
-          ) : null}
+          {promos.length > 0 && (
+            <ProductGrid products={promos.slice(0, 4)} onAdd={addItem} />
+          )}
         </div>
       </section>
 
@@ -82,15 +39,9 @@ export function ProductSections() {
             title="Os queridinhos"
             sub="Os presentes que mais conquistam corações."
           />
-          {featured.loading ? (
-            <SkeletonGrid />
-          ) : featured.data.length > 0 ? (
-            <ProductGrid
-              ids={featured.data.slice(0, 4)}
-              onAdd={addItem}
-              onCardClick={handleCardClick}
-            />
-          ) : null}
+          {featured.length > 0 && (
+            <ProductGrid products={featured.slice(0, 4)} onAdd={addItem} />
+          )}
           <div className="text-center mt-10">
             <Link href="/catalogo">
               <Button variant="secondary" size="lg" iconRight="arrow-right">
