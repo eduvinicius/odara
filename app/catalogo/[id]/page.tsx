@@ -11,6 +11,7 @@ import { AddToCartButton } from "./AddToCartButton";
 import { RelatedProductsGrid } from "@/app/components/commerce/RelatedProductsGrid";
 import { getProductById, getRelatedProducts } from "@/lib/queries";
 import { SectionHead } from "@/app/components/home/ProductSections/SectionHead";
+import { ScrollToTop } from "./ScrollToTop";
 import { wrap } from "../page.data";
 
 type Params = Promise<{ id: string }>;
@@ -68,6 +69,7 @@ export default async function ProductDetailPage({
       <Header />
 
       <main className="bg-surface-page">
+        <ScrollToTop />
         <div
           style={{
             ...wrap,
