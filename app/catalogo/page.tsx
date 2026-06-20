@@ -1,13 +1,13 @@
+import { Suspense } from "react";
 import type { Metadata } from "next";
 import { Header } from "@/app/components/layout/Header";
 import { Footer } from "@/app/components/layout/Footer";
 import { Eyebrow } from "@/app/components/core/Eyebrow";
 import { Pagination } from "@/app/components/ui/Pagination";
-import { CatalogFilters } from "./CatalogFilters";
-import { CatalogGrid } from "./CatalogGrid";
+import { CatalogFilters } from "@/app/components/commerce/CatalogFilters";
+import { CatalogGrid } from "@/app/components/commerce/CatalogGrid";
 import { getProductsPaginated, getCategories } from "@/lib/queries";
-import { type Category } from "@/lib/data";
-import { wrap } from "./page.data";
+import { wrap } from "@/lib/layout";
 
 export const metadata: Metadata = {
   title: "Catálogo — Odara",
@@ -15,6 +15,69 @@ export const metadata: Metadata = {
 };
 
 type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>;
+
+// ─── Skeleton fallback for the product grid ──────────────────────────────────
+
+function CatalogGridSkeleton(): React.ReactElement {
+  return (
+    <div
+      className="grid gap-6 animate-pulse"
+      style={{ gridTemplateColumns: "repeat(auto-fill, minmax(230px, 1fr))" }}
+    >
+      {Array.from({ length: 12 }, (_, i) => (
+        <div
+          key={`skeleton-${i}`}
+          style={{
+            background: "var(--surface-card)",
+            borderRadius: "var(--radius-md)",
+            overflow: "hidden",
+            aspectRatio: "3 / 4",
+          }}
+        />
+      ))}
+    </div>
+  );
+}
+
+// ─── Async server component that fetches + renders the grid ──────────────────
+
+async function CatalogContent({
+  page,
+  cat,
+  q,
+}: Readonly<{
+  page: number;
+  cat: string;
+  q: string;
+}>): Promise<React.ReactElement> {
+  const { products, totalCount, totalPages } = await getProductsPaginated(page, cat, q);
+
+  const clearHref = "/catalogo";
+
+  // Build preserved params for pagination links (omit `page` — Pagination adds it)
+  const preservedParams: Record<string, string> = {};
+  if (q) preservedParams.q = q;
+  if (cat !== "Todos") preservedParams.cat = cat;
+
+  return (
+    <>
+      <CatalogGrid
+        products={products}
+        totalCount={totalCount}
+        q={q}
+        clearFiltersHref={clearHref}
+      />
+      <Pagination
+        page={page}
+        totalPages={totalPages}
+        basePath="/catalogo"
+        params={preservedParams}
+      />
+    </>
+  );
+}
+
+// ─── Page ────────────────────────────────────────────────────────────────────
 
 export default async function CatalogPage({
   searchParams,
@@ -30,32 +93,19 @@ export default async function CatalogPage({
   const page = Math.max(1, Number.parseInt(rawPage, 10) || 1);
   const q = rawQ.slice(0, 200); // guard against excessively long input
 
-  // Fetch categories and products in parallel. rawCat is passed directly to
-  // getProductsPaginated — getCategories() validates it afterwards. An unknown
-  // rawCat will simply not match any category_id in Supabase (returns 0 rows),
-  // and the UI falls back to showing "Todos" as the active chip.
-  const [categoryLabels, { products, totalCount, totalPages }] = await Promise.all([
-    getCategories(),
-    getProductsPaginated(page, rawCat, q),
-  ]);
+  // Fetch only categories here so the page header renders immediately.
+  // Products are fetched inside CatalogContent behind the Suspense boundary.
+  const categoryLabels = await getCategories();
 
-  const allCategories: Category[] = ["Todos", ...categoryLabels];
-  const cat: Category = allCategories.includes(rawCat) ? rawCat : "Todos";
-
-  // Build preserved params for pagination links (omit `page` — Pagination adds it)
-  const preservedParams: Record<string, string> = {};
-  if (q) preservedParams.q = q;
-  if (cat !== "Todos") preservedParams.cat = cat;
-
-  // Clear-filters href for the empty state
-  const clearHref = "/catalogo";
+  const allCategories: string[] = ["Todos", ...categoryLabels];
+  const cat: string = allCategories.includes(rawCat) ? rawCat : "Todos";
 
   return (
     <>
       <Header />
 
       <main className="bg-surface-page">
-        {/* Page header */}
+        {/* Page header — renders immediately while products stream in */}
         <section
           className="border-b border-border-soft"
           style={{ background: "var(--gradient-page)" }}
@@ -83,26 +133,16 @@ export default async function CatalogPage({
           </div>
         </section>
 
-        {/* Product grid */}
+        {/* Product grid — streams in behind a Suspense boundary */}
         <section
           style={{
             ...wrap,
             padding: "clamp(28px,4vw,44px) clamp(16px,4vw,48px) clamp(48px,6vw,80px)",
           }}
         >
-          <CatalogGrid
-            products={products}
-            totalCount={totalCount}
-            q={q}
-            onClearFilters={clearHref}
-          />
-
-          <Pagination
-            page={page}
-            totalPages={totalPages}
-            basePath="/catalogo"
-            params={preservedParams}
-          />
+          <Suspense fallback={<CatalogGridSkeleton />}>
+            <CatalogContent page={page} cat={cat} q={q} />
+          </Suspense>
         </section>
       </main>
 

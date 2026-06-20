@@ -3,6 +3,7 @@
 
 import { cookies } from "next/headers";
 import { createClient } from "@/utils/supabase/server";
+import { CATEGORIES_TABLE } from "@/lib/data";
 
 async function db() {
   const cookieStore = await cookies();
@@ -12,7 +13,7 @@ async function db() {
 export async function getCategories(): Promise<string[]> {
   const supabase = await db();
   const { data, error } = await supabase
-    .from("Categories")
+    .from(CATEGORIES_TABLE)
     .select("label")
     .order("ord", { ascending: true });
 

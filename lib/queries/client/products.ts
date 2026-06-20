@@ -2,12 +2,12 @@
 // Uses the anon-key Supabase client (NEXT_PUBLIC_*).
 
 import { createClient } from "@/lib/supabase";
-import { rowToProduct, type Category, type Product, type ProductRow } from "@/lib/data";
+import { rowToProduct, PRODUCTS_TABLE, type Product, type ProductRow } from "@/lib/data";
 
 export async function fetchProducts(): Promise<Product[]> {
   const supabase = createClient();
   const { data, error } = await supabase
-    .from("Products")
+    .from(PRODUCTS_TABLE)
     .select("*")
     .eq("active", true)
     .order("id");
@@ -19,7 +19,7 @@ export async function fetchProducts(): Promise<Product[]> {
 export async function fetchFeaturedProducts(): Promise<Product[]> {
   const supabase = createClient();
   const { data, error } = await supabase
-    .from("Products")
+    .from(PRODUCTS_TABLE)
     .select("*")
     .eq("active", true)
     .eq("featured", true)
@@ -32,7 +32,7 @@ export async function fetchFeaturedProducts(): Promise<Product[]> {
 export async function fetchPromoProducts(): Promise<Product[]> {
   const supabase = createClient();
   const { data, error } = await supabase
-    .from("Products")
+    .from(PRODUCTS_TABLE)
     .select("*")
     .eq("active", true)
     .not("original_price", "is", null)
@@ -42,12 +42,12 @@ export async function fetchPromoProducts(): Promise<Product[]> {
   return (data as ProductRow[]).map((row) => rowToProduct(row));
 }
 
-export async function fetchProductsByCategory(category: Category): Promise<Product[]> {
+export async function fetchProductsByCategory(category: string): Promise<Product[]> {
   if (category === "Todos") return fetchProducts();
 
   const supabase = createClient();
   const { data, error } = await supabase
-    .from("Products")
+    .from(PRODUCTS_TABLE)
     .select("*")
     .eq("active", true)
     .eq("category_id", category.toLowerCase())

@@ -1,9 +1,10 @@
 // Server-only — import ONLY from Server Components, Route Handlers, or Server Actions.
 // Fetches product data from Supabase using the SSR server client.
 
+import { cache } from "react";
 import { cookies } from "next/headers";
 import { createClient } from "@/utils/supabase/server";
-import { rowToProduct, type Category, type Product, type ProductRow } from "@/lib/data";
+import { rowToProduct, PRODUCTS_TABLE, type Product, type ProductRow } from "@/lib/data";
 
 export const PAGE_SIZE = 12;
 
@@ -15,7 +16,7 @@ async function db() {
 export async function getProducts(): Promise<Product[]> {
   const supabase = await db();
   const { data, error } = await supabase
-    .from("Products")
+    .from(PRODUCTS_TABLE)
     .select("*")
     .eq("active", true)
     .order("id");
@@ -27,7 +28,7 @@ export async function getProducts(): Promise<Product[]> {
 export async function getPromoProducts(): Promise<Product[]> {
   const supabase = await db();
   const { data, error } = await supabase
-    .from("Products")
+    .from(PRODUCTS_TABLE)
     .select("*")
     .eq("active", true)
     .not("original_price", "is", null)
@@ -40,7 +41,7 @@ export async function getPromoProducts(): Promise<Product[]> {
 export async function getFeaturedProducts(): Promise<Product[]> {
   const supabase = await db();
   const { data, error } = await supabase
-    .from("Products")
+    .from(PRODUCTS_TABLE)
     .select("*")
     .eq("active", true)
     .eq("featured", true)
@@ -61,7 +62,7 @@ export type PaginatedProducts = {
 
 export async function getProductsPaginated(
   page: number,
-  category: Category,
+  category: string,
   search: string,
 ): Promise<PaginatedProducts> {
   const supabase = await db();
@@ -70,7 +71,7 @@ export async function getProductsPaginated(
   const to = from + PAGE_SIZE - 1;
 
   let query = supabase
-    .from("Products")
+    .from(PRODUCTS_TABLE)
     .select("*", { count: "exact" })
     .eq("active", true);
 
@@ -97,12 +98,12 @@ export async function getProductsPaginated(
   };
 }
 
-export async function getProductsByCategory(category: Category): Promise<Product[]> {
+export async function getProductsByCategory(category: string): Promise<Product[]> {
   if (category === "Todos") return getProducts();
 
   const supabase = await db();
   const { data, error } = await supabase
-    .from("Products")
+    .from(PRODUCTS_TABLE)
     .select("*")
     .eq("active", true)
     .eq("category_id", category.toLowerCase())
@@ -112,10 +113,10 @@ export async function getProductsByCategory(category: Category): Promise<Product
   return (data as ProductRow[]).map((row) => rowToProduct(row));
 }
 
-export async function getProductById(id: string): Promise<Product | null> {
+export const getProductById = cache(async (id: string): Promise<Product | null> => {
   const supabase = await db();
   const { data, error } = await supabase
-    .from("Products")
+    .from(PRODUCTS_TABLE)
     .select("*")
     .eq("id", id)
     .single();
@@ -126,12 +127,12 @@ export async function getProductById(id: string): Promise<Product | null> {
   }
 
   return rowToProduct(data as ProductRow);
-}
+});
 
 export async function getRelatedProducts(excludeId: string, limit = 3): Promise<Product[]> {
   const supabase = await db();
   const { data, error } = await supabase
-    .from("Products")
+    .from(PRODUCTS_TABLE)
     .select("*")
     .eq("active", true)
     .neq("id", excludeId)

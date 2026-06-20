@@ -1,0 +1,1 @@
+export { RelatedProductsGrid } from "./RelatedProductsGrid";

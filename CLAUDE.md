@@ -31,13 +31,17 @@ odara/              ← Next.js app (this repo)
     layout.tsx      ← Root layout: Geist fonts, metadata
     page.tsx        ← Home page (currently Next.js placeholder)
     globals.css     ← Tailwind v4 import + CSS custom properties
+  utils/
+    supabase/
+      client.ts     ← Supabase browser client (Client Components only — uses NEXT_PUBLIC_ anon key)
+      server.ts     ← Supabase server client (Server Components / Route Handlers — uses SSR cookie adapter)
+      middleware.ts ← Supabase middleware helper for session refresh
   lib/
-    supabase.ts     ← Supabase browser client init (client components only)
-    supabase-server.ts ← Supabase server client init (Server Components — keeps service role key server-side)
     data.ts         ← Supabase fetch functions + Product interface + CATEGORIES
-    cart.ts         ← CartItem type (cart state lives in CartContext, persisted to localStorage)
+    cart.ts         ← CartItem type (cart state lives in CartContext)
     whatsapp.ts     ← WhatsApp order message builder + phone constant
-    utils.ts        ← money() formatter and other pure helpers
+    queries/        ← Server-only Supabase query functions (products, categories, feedbacks)
+    hooks/          ← Client-side React hooks for Supabase data
 
 ../Odara Design System/   ← Brand guidelines & component library (outside this repo)
   Tokens/           ← CSS design tokens (colors, typography, spacing, effects, fonts)
@@ -49,7 +53,7 @@ odara/              ← Next.js app (this repo)
 ### Key architectural decisions
 
 - **App Router only** — uses Next.js App Directory (`app/`), not Pages Router.
-- **Supabase (read-only)** — product data is fetched from Supabase. No writes, no auth. Server Components use a server client initialized with the service role key (`supabase-server.ts`); Client Components use the browser client with the anon key (`supabase.ts`). Config comes from environment variables only.
+- **Supabase (read-only)** — product data is fetched from Supabase. No writes, no auth. The Supabase client lives in `utils/supabase/` (not `lib/`): `utils/supabase/server.ts` for Server Components and Route Handlers; `utils/supabase/client.ts` for Client Components. Config comes from environment variables only.
 - **Tailwind CSS v4** — configured via `@tailwindcss/postcss` in `postcss.config.mjs`. The `@theme` directive in `globals.css` is the primary token surface.
 - **Path alias** — `@/*` resolves to the project root (set in `tsconfig.json`).
 - **Design System as source of truth** — All visual decisions (colors, typography, spacing, components) live in `../Odara Design System/`. When implementing UI, reference that directory rather than inventing styles.
