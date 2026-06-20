@@ -2,17 +2,17 @@
 
 import { useEffect, useState } from "react";
 import { fetchProductsByCategory } from "@/lib/queries/client";
-import { type Category, type Product } from "@/lib/data";
+import { type Product } from "@/lib/data";
 
 type CategoryState = {
-  category: Category;
+  category: string;
   data: Product[];
   loading: boolean;
   error: string | null;
 };
 
 export function useProductsByCategory(
-  category: Category,
+  category: string,
 ): { data: Product[]; loading: boolean; error: string | null } {
   const [state, setState] = useState<CategoryState>({
     category,

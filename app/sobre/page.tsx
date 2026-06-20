@@ -1,12 +1,18 @@
+import type { Metadata } from "next";
 import Image from "next/image";
-import Link from "next/link";
 import { Header } from "@/app/components/layout/Header";
 import { Footer } from "@/app/components/layout/Footer";
 import { Eyebrow } from "@/app/components/core/Eyebrow";
 import { Divider } from "@/app/components/core/Divider";
 import { Button } from "@/app/components/core/Button";
 import { WHATSAPP_NUMBER } from "@/lib/whatsapp";
-import { VALUES, STATS, wrap } from "./page.data";
+import { wrap } from "@/lib/layout";
+import { VALUES, STATS } from "./page.data";
+
+export const metadata: Metadata = {
+  title: "Quem somos — Odara",
+  description: "Conheça a história da Odara: presentes artesanais, montados à mão com carinho.",
+};
 
 export default function AboutPage() {
   return (
@@ -56,6 +62,7 @@ export default function AboutPage() {
                 src="/odara-gifts.jpg"
                 alt="Presentes e detalhes Odara"
                 fill
+                priority
                 sizes="(max-width: 768px) 100vw, 45vw"
                 className="object-cover"
               />
@@ -119,7 +126,7 @@ export default function AboutPage() {
         </section>
 
         {/* Contact CTA */}
-        <section className="bg-emerald-500">
+        <section style={{ background: "var(--surface-inverse)" }}>
           <div
             className="flex flex-col items-center gap-4.5 text-center"
             style={{ ...wrap, padding: "clamp(44px,6vw,72px) clamp(16px,4vw,48px)" }}
@@ -142,15 +149,17 @@ export default function AboutPage() {
               >
                 Falar no WhatsApp
               </Button>
-              <Link href="/catalogo">
-                <Button
-                  variant="outline"
-                  size="lg"
-                  style={{ color: "var(--cream-50)", borderColor: "rgba(247,237,225,0.5)" }}
-                >
-                  Ver catálogo
-                </Button>
-              </Link>
+              <Button
+                variant="outline"
+                size="lg"
+                href="/catalogo"
+                style={{
+                  color: "var(--cream-50)",
+                  borderColor: "color-mix(in srgb, var(--cream-100) 50%, transparent)",
+                }}
+              >
+                Ver catálogo
+              </Button>
             </div>
           </div>
         </section>

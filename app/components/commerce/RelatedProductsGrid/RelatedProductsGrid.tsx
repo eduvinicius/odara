@@ -1,6 +1,5 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { ProductCard } from "@/app/components/commerce/ProductCard";
 import { useCart } from "@/app/context/CartContext";
 import type { Product } from "@/lib/data";
@@ -11,13 +10,8 @@ type RelatedProductsGridProps = {
 
 export function RelatedProductsGrid({ products }: Readonly<RelatedProductsGridProps>) {
   const { addItem } = useCart();
-  const router = useRouter();
 
   if (products.length === 0) return null;
-
-  function handleCardClick(id: string): void {
-    router.push(`/catalogo/${id}`);
-  }
 
   return (
     <div
@@ -29,7 +23,7 @@ export function RelatedProductsGrid({ products }: Readonly<RelatedProductsGridPr
           key={p.id}
           product={p}
           onAdd={addItem}
-          onClick={() => handleCardClick(p.id)}
+          href={`/catalogo/${p.id}`}
         />
       ))}
     </div>

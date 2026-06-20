@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import type { ButtonProps } from "./button.types";
 import { sizeClasses, variantClasses } from "./button.data";
 import { resolveIcon } from "./button.utils";
@@ -41,9 +42,9 @@ export function Button({
 
   if (href) {
     return (
-      <a href={href} className={base} style={inlineStyle}>
+      <Link href={href} className={base} style={inlineStyle}>
         {content}
-      </a>
+      </Link>
     );
   }
 

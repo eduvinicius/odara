@@ -26,6 +26,9 @@ const jost = Jost({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"
+  ),
   title: "Odara · Arte em presentear",
   description:
     "Presentes artesanais montados e embrulhados à mão. Escolha, monte seu pedido e finalize pelo WhatsApp.",

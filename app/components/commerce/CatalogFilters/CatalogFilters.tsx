@@ -4,11 +4,11 @@ import { useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { SearchField } from "@/app/components/forms/SearchField";
 import { Tag } from "@/app/components/core/Tag";
-import { type Category } from "@/lib/data";
+import { Button } from "@/app/components/core/Button";
 
 type CatalogFiltersProps = {
   q: string;
-  cat: Category;
+  cat: string;
   categories: string[];
 };
 
@@ -17,7 +17,7 @@ export function CatalogFilters({ q, cat, categories }: Readonly<CatalogFiltersPr
   const pathname = usePathname();
   const [inputValue, setInputValue] = useState(q);
 
-  function navigate(nextQ: string, nextCat: Category) {
+  function navigate(nextQ: string, nextCat: string) {
     const params = new URLSearchParams();
     if (nextQ.trim()) params.set("q", nextQ);
     if (nextCat !== "Todos") params.set("cat", nextCat);
@@ -43,7 +43,7 @@ export function CatalogFilters({ q, cat, categories }: Readonly<CatalogFiltersPr
     navigate("", cat);
   }
 
-  function handleCategoryClick(c: Category) {
+  function handleCategoryClick(c: string) {
     navigate(inputValue, c);
   }
 
@@ -59,36 +59,19 @@ export function CatalogFilters({ q, cat, categories }: Readonly<CatalogFiltersPr
             placeholder="Buscar pelo nome do presente..."
           />
         </div>
-        <button
-          type="button"
-          onClick={commit}
-          style={{
-            backgroundColor: "var(--gold-400)",
-            color: "var(--cream-50)",
-            borderRadius: "var(--radius-pill)",
-            padding: "var(--space-1) var(--space-2)",
-            fontFamily: "var(--font-jost)",
-            fontWeight: 500,
-            fontSize: "0.875rem",
-            border: "none",
-            cursor: "pointer",
-            whiteSpace: "nowrap",
-            transition: "opacity var(--dur-fast) var(--ease-out)",
-          }}
-          onMouseOver={(e) => { (e.currentTarget as HTMLButtonElement).style.opacity = "0.85"; }}
-          onMouseOut={(e) => { (e.currentTarget as HTMLButtonElement).style.opacity = "1"; }}
-        >
+        <Button variant="primary" size="sm" onClick={commit}>
           Buscar
-        </button>
+        </Button>
       </div>
 
-      <div className="flex gap-2.5 flex-wrap justify-center mb-6 mt-6">
+      <fieldset className="flex gap-2.5 flex-wrap justify-center mb-6 mt-6 border-0 p-0 m-0">
+        <legend className="sr-only">Filtrar por categoria</legend>
         {categories.map((c) => (
           <Tag key={c} selected={cat === c} onClick={() => handleCategoryClick(c)}>
             {c}
           </Tag>
         ))}
-      </div>
+      </fieldset>
     </>
   );
 }

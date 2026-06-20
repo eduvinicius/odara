@@ -24,7 +24,3 @@ export const STATS = [
   { number: "5,0",    label: "avaliação dos clientes" },
 ] as const;
 
-export const wrap = {
-  maxWidth: "var(--container-max)",
-  margin: "0 auto",
-} as const;
