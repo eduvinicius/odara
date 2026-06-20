@@ -201,6 +201,9 @@
   --color-rose-300: var(--rose-300);
   --color-rose-400: var(--rose-400);
 
+  /* Semantic text colors → text-on-gold, etc. */
+  --color-on-gold: var(--text-on-gold);
+
   /* Semantic surface colors → bg-surface-page, bg-surface-card, etc. */
   --color-surface-page:    var(--surface-page);
   --color-surface-card:    var(--surface-card);

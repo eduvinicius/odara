@@ -12,7 +12,7 @@ import { RelatedProductsGrid } from "@/app/components/commerce/RelatedProductsGr
 import { getProductById, getRelatedProducts } from "@/lib/queries";
 import { SectionHead } from "@/app/components/home/ProductSections/SectionHead";
 import { ScrollToTop } from "./ScrollToTop";
-import { wrap } from "../page.data";
+import { wrap } from "@/lib/layout";
 
 type Params = Promise<{ id: string }>;
 

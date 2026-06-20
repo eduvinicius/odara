@@ -7,7 +7,7 @@ import { Pagination } from "@/app/components/ui/Pagination";
 import { CatalogFilters } from "@/app/components/commerce/CatalogFilters";
 import { CatalogGrid } from "@/app/components/commerce/CatalogGrid";
 import { getProductsPaginated, getCategories } from "@/lib/queries";
-import { wrap } from "./page.data";
+import { wrap } from "@/lib/layout";
 
 export const metadata: Metadata = {
   title: "Catálogo — Odara",

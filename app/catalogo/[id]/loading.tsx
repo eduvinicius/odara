@@ -1,7 +1,7 @@
 import { Header } from "@/app/components/layout/Header";
 import { Footer } from "@/app/components/layout/Footer";
 import { CardSkeleton } from "./CardSkeleton";
-import { wrap } from "../page.data";
+import { wrap } from "@/lib/layout";
 
 // ─── Shared skeleton bone style ────────────────────────────────────────────
 

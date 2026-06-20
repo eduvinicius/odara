@@ -1,7 +1,7 @@
 import { Header } from "@/app/components/layout/Header";
 import { Footer } from "@/app/components/layout/Footer";
 import { Button } from "@/app/components/core/Button";
-import { wrap } from "../page.data";
+import { wrap } from "@/lib/layout";
 
 export default function ProductNotFound(): React.ReactElement {
   return (
