@@ -1,14 +1,14 @@
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import { Header } from "@/app/components/layout/Header";
 import { Footer } from "@/app/components/layout/Footer";
-import { Button } from "@/app/components/core/Button";
 import { Badge } from "@/app/components/core/Badge";
 import { PriceTag } from "@/app/components/commerce/PriceTag";
 import { ImageGallery } from "@/app/components/commerce/ImageGallery";
 import { Breadcrumb } from "@/app/components/ui/Breadcrumb";
 import { SocialShareButton } from "@/app/components/ui/SocialShareButton";
 import { AddToCartButton } from "./AddToCartButton";
-import { RelatedProductsGrid } from "./RelatedProductsGrid";
+import { RelatedProductsGrid } from "@/app/components/commerce/RelatedProductsGrid";
 import { getProductById, getRelatedProducts } from "@/lib/queries";
 import { SectionHead } from "@/app/components/home/ProductSections/SectionHead";
 import { wrap } from "../page.data";
@@ -60,47 +60,7 @@ export default async function ProductDetailPage({
   ]);
 
   if (product === null) {
-    return (
-      <>
-        <Header />
-
-        <main
-          className="bg-surface-page"
-          style={{ minHeight: "60vh" }}
-        >
-          <div
-            className="flex flex-col items-center justify-center gap-4 text-center"
-            style={{
-              ...wrap,
-              padding: "clamp(64px,8vw,120px) clamp(16px,4vw,48px)",
-            }}
-          >
-            <h1
-              className="font-serif font-semibold"
-              style={{
-                fontSize: "var(--text-3xl)",
-                color: "var(--ink-900)",
-              }}
-            >
-              Produto não encontrado
-            </h1>
-
-            <p
-              className="font-sans max-w-md"
-              style={{ color: "var(--ink-500)" }}
-            >
-              O produto que você procura não existe ou foi removido.
-            </p>
-
-            <Button href="/catalogo" variant="outline">
-              Voltar ao catálogo
-            </Button>
-          </div>
-        </main>
-
-        <Footer />
-      </>
-    );
+    notFound();
   }
 
   return (

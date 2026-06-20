@@ -1,10 +1,12 @@
 // Shared module — imported by both Server and Client Components.
 // No server-only imports here. Fetch functions live in lib/queries/.
 
-// ─── Types ─────────────────────────────────────────────────────────────────
+// ─── Table name constants ────────────────────────────────────────────────────
 
-// Category labels are fetched from Supabase at runtime — see lib/queries/categories.ts getCategories().
-export type Category = string;
+export const PRODUCTS_TABLE = "Products";
+export const CATEGORIES_TABLE = "Categories";
+
+// ─── Types ─────────────────────────────────────────────────────────────────
 
 export interface Badge {
   tone: "sale" | "new" | "gold" | "neutral";
@@ -14,7 +16,7 @@ export interface Badge {
 export interface Product {
   id: string;            // UUID from Supabase
   name: string;
-  category: Category;
+  category: string;
   price: number;
   original?: number;     // mapped from original_price
   image?: string;        // mapped from image_url
@@ -49,7 +51,7 @@ export type ProductRow = {
 
 export function rowToProduct(row: ProductRow): Product {
   const rawCat = row.category_id ?? "";
-  const category: Category = rawCat.charAt(0).toUpperCase() + rawCat.slice(1);
+  const category = rawCat.charAt(0).toUpperCase() + rawCat.slice(1);
 
   return {
     id: row.id,

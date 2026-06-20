@@ -1,6 +1,5 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { SearchX } from "lucide-react";
 import { Button } from "@/app/components/core/Button";
 import { ProductCard } from "@/app/components/commerce/ProductCard";
@@ -11,16 +10,11 @@ type CatalogGridProps = {
   products: Product[];
   totalCount: number;
   q: string;
-  onClearFilters: string; // href to navigate to on clear
+  clearFiltersHref: string; // href to navigate to on clear
 };
 
-export function CatalogGrid({ products, totalCount, q, onClearFilters }: Readonly<CatalogGridProps>) {
+export function CatalogGrid({ products, totalCount, q, clearFiltersHref }: Readonly<CatalogGridProps>) {
   const { addItem } = useCart();
-  const router = useRouter();
-
-  function handleCardClick(id: string): void {
-    router.push(`/catalogo/${id}`);
-  }
 
   const countLabel = totalCount === 1 ? "presente encontrado" : "presentes encontrados";
 
@@ -45,7 +39,7 @@ export function CatalogGrid({ products, totalCount, q, onClearFilters }: Readonl
               key={p.id}
               product={p}
               onAdd={addItem}
-              onClick={() => handleCardClick(p.id)}
+              href={`/catalogo/${p.id}`}
             />
           ))}
         </div>
@@ -54,7 +48,7 @@ export function CatalogGrid({ products, totalCount, q, onClearFilters }: Readonl
           <SearchX size={40} className="text-gold-400" />
           <p className="font-serif text-xl text-ink-700">Nenhum presente encontrado</p>
           <p>Tente outro nome ou veja todas as categorias.</p>
-          <Button variant="outline" href={onClearFilters}>
+          <Button variant="outline" href={clearFiltersHref}>
             Limpar filtros
           </Button>
         </div>

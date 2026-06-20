@@ -1,5 +1,6 @@
 import { Header } from "@/app/components/layout/Header";
 import { Footer } from "@/app/components/layout/Footer";
+import { CardSkeleton } from "./CardSkeleton";
 import { wrap } from "../page.data";
 
 // ─── Shared skeleton bone style ────────────────────────────────────────────
@@ -18,54 +19,6 @@ const bone = (
   ...extraStyle,
 });
 
-// ─── Card skeleton (used in Related Products grid) ─────────────────────────
-
-function CardSkeleton(): React.ReactElement {
-  return (
-    <div
-      className="animate-pulse"
-      style={{
-        background: "var(--surface-card)",
-        borderRadius: "var(--radius-md)",
-        overflow: "hidden",
-        display: "flex",
-        flexDirection: "column",
-        gap: "12px",
-        padding: "0 0 16px",
-      }}
-    >
-      {/* Image area */}
-      <div
-        style={{
-          width: "100%",
-          aspectRatio: "4 / 3",
-          background: "var(--cream-300)",
-          borderRadius: "var(--radius-lg) var(--radius-lg) 0 0",
-        }}
-      />
-
-      {/* Text area */}
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          gap: "8px",
-          padding: "0 16px",
-        }}
-      >
-        {/* Name line 1 */}
-        <div style={bone("80%", "16px", "--radius-pill")} />
-        {/* Name line 2 */}
-        <div style={bone("55%", "16px", "--radius-pill")} />
-        {/* Price */}
-        <div style={{ ...bone("60px", "14px", "--radius-pill"), marginTop: "4px" }} />
-        {/* Button */}
-        <div style={{ ...bone("100%", "40px", "--radius-pill"), marginTop: "8px" }} />
-      </div>
-    </div>
-  );
-}
-
 // ─── Loading skeleton ───────────────────────────────────────────────────────
 
 export default function ProductDetailLoading(): React.ReactElement {
@@ -83,7 +36,7 @@ export default function ProductDetailLoading(): React.ReactElement {
         >
           {/* Breadcrumb skeleton */}
           <div className="mb-6 md:mb-8 animate-pulse">
-            <div style={bone("200px", "16px", "--radius-pill")} />
+            <div style={bone("200px", "var(--space-4)", "--radius-pill")} />
           </div>
 
           {/* Two-column grid */}
@@ -98,7 +51,7 @@ export default function ProductDetailLoading(): React.ReactElement {
                   style={{
                     display: "flex",
                     flexDirection: "column",
-                    gap: "8px",
+                    gap: "var(--space-2)",
                     flexShrink: 0,
                   }}
                 >
@@ -131,7 +84,7 @@ export default function ProductDetailLoading(): React.ReactElement {
                 />
 
                 {/* Thumbnail row */}
-                <div style={{ display: "flex", gap: "8px" }}>
+                <div style={{ display: "flex", gap: "var(--space-2)" }}>
                   <div style={bone("64px", "64px", "--radius-md")} />
                   <div style={bone("64px", "64px", "--radius-md")} />
                   <div style={bone("64px", "64px", "--radius-md")} />
@@ -148,7 +101,7 @@ export default function ProductDetailLoading(): React.ReactElement {
               }}
             >
               {/* Category label */}
-              <div style={bone("80px", "12px", "--radius-pill")} />
+              <div style={bone("80px", "var(--space-3)", "--radius-pill")} />
 
               {/* h1 (two lines) */}
               <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
@@ -163,18 +116,18 @@ export default function ProductDetailLoading(): React.ReactElement {
               <hr style={{ borderColor: "var(--border-soft)", margin: 0 }} />
 
               {/* Description (4 lines) */}
-              <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-                <div style={bone("100%", "16px", "--radius-pill")} />
-                <div style={bone("100%", "16px", "--radius-pill")} />
-                <div style={bone("100%", "16px", "--radius-pill")} />
-                <div style={bone("60%", "16px", "--radius-pill")} />
+              <div style={{ display: "flex", flexDirection: "column", gap: "var(--space-2)" }}>
+                <div style={bone("100%", "var(--space-4)", "--radius-pill")} />
+                <div style={bone("100%", "var(--space-4)", "--radius-pill")} />
+                <div style={bone("100%", "var(--space-4)", "--radius-pill")} />
+                <div style={bone("60%", "var(--space-4)", "--radius-pill")} />
               </div>
 
               {/* Add-to-cart button */}
               <div style={bone("100%", "52px", "--radius-pill")} />
 
               {/* Share button */}
-              <div style={bone("120px", "16px", "--radius-pill")} />
+              <div style={bone("120px", "var(--space-4)", "--radius-pill")} />
             </div>
           </div>
 
@@ -193,11 +146,11 @@ export default function ProductDetailLoading(): React.ReactElement {
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
-                gap: "12px",
+                gap: "var(--space-3)",
                 marginBottom: "40px",
               }}
             >
-              <div style={bone("100px", "12px", "--radius-pill")} />
+              <div style={bone("100px", "var(--space-3)", "--radius-pill")} />
               <div style={bone("220px", "28px", "--radius-pill")} />
             </div>
 
